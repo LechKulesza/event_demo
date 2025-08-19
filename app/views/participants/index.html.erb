@@ -1,0 +1,105 @@
+<div class="row">
+  <div class="col-lg-8 mx-auto">
+    <div class="card text-center">
+      <div class="card-body">
+        <div class="mb-4">
+          <!-- Placeholder for Accenture logo -->
+          <div class="bg-secondary rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+            <span class="text-white fw-bold">LOGO</span>
+          </div>
+        </div>
+        
+        <h1 class="display-4 fw-bold text-navy mb-3">
+          Accenture Community Meeting '25
+        </h1>
+        
+        <p class="lead mb-4">
+          Zapraszamy na coroczne spotkanie społeczności Accenture! 
+          Zarejestruj się już dziś i dołącz do nas na niezapomniane wydarzenie.
+        </p>
+        
+        <%= link_to "Zarejestruj się teraz", new_participant_path, 
+            class: "btn btn-primary btn-lg px-5 py-3 mb-5" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-lg-10 mx-auto">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <h3 class="mb-0">Agenda Wydarzenia</h3>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="agenda-item">
+              <strong>18:00-19:00</strong><br>
+              Rejestracja uczestników
+            </div>
+            
+            <div class="agenda-item">
+              <strong>19:00-19:30</strong><br>
+              Oficjalne przemówienie
+            </div>
+            
+            <div class="agenda-item">
+              <strong>19:30-20:00</strong><br>
+              Konkurs
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="agenda-item">
+              <strong>20:00-21:00</strong><br>
+              Kolacja z muzyką
+            </div>
+            
+            <div class="agenda-item">
+              <strong>21:00-21:10</strong><br>
+              Rozstrzygnięcie konkursu
+            </div>
+            
+            <div class="agenda-item">
+              <strong>21:10-3:00</strong><br>
+              Część muzyczno-artystyczna
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @participants.any? %>
+<div class="row mt-5">
+  <div class="col-lg-10 mx-auto">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="mb-0">Statystyki Wydarzenia</h4>
+      </div>
+      <div class="card-body">
+        <div class="row text-center">
+          <div class="col-md-3">
+            <h3 class="text-primary"><%= @participants.count %></h3>
+            <p>Łączna liczba rejestracji</p>
+          </div>
+          <div class="col-md-3">
+            <h3 class="text-success"><%= @confirmed_count %></h3>
+            <p>Potwierdzone rejestracje</p>
+          </div>
+          <div class="col-md-3">
+            <h3 class="text-info"><%= @scanned_count %></h3>
+            <p>Obecni na wydarzeniu</p>
+          </div>
+          <div class="col-md-3">
+            <h3 class="text-warning"><%= @attendance_percentage %>%</h3>
+            <p>Procent frekwencji</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

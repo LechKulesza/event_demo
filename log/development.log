@@ -1,0 +1,789 @@
+  [1m[35mSQL (0.5ms)[0m  [1m[35mSET search_path TO public /*application='EventDemo'*/[0m
+  [1m[35m (402.8ms)[0m  [1m[35mCREATE DATABASE "event_demo_development" ENCODING = 'unicode' /*application='EventDemo'*/[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mSET search_path TO public /*application='EventDemo'*/[0m
+  [1m[35m (149.7ms)[0m  [1m[35mCREATE DATABASE "event_demo_test" ENCODING = 'unicode' /*application='EventDemo'*/[0m
+  [1m[35m (6.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY) /*application='EventDemo'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='EventDemo'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5562851921794178235) /*application='EventDemo'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EventDemo'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.8ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EventDemo'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.7ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2025-08-19 12:34:51.830036', '2025-08-19 12:34:51.830039') RETURNING "key" /*application='EventDemo'*/[0m
+Migrating to CreateParticipants (20250819122341)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='EventDemo'*/[0m
+  [1m[35m (7.9ms)[0m  [1m[35mCREATE TABLE "participants" ("id" bigserial primary key, "first_name" character varying, "last_name" character varying, "email" character varying, "confirmed" boolean, "qr_code" text, "scanned_at" timestamp(6), "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='EventDemo'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250819122341') RETURNING "version" /*application='EventDemo'*/[0m
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT /*application='EventDemo'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_advisory_unlock(5562851921794178235) /*application='EventDemo'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EventDemo'*/[0m
+Started GET "/?id=1eeeaa14-fe58-4274-b419-e06541c420cf&vscodeBrowserReqId=1755606978381" for ::1 at 2025-08-19 14:36:18 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EventDemo'*/[0m
+Processing by ParticipantsController#index as HTML
+  Parameters: {"id" => "1eeeaa14-fe58-4274-b419-e06541c420cf", "vscodeBrowserReqId" => "1755606978381"}
+  [1m[36mParticipant Count (0.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:6:in 'ParticipantsController#index'
+  [1m[36mParticipant Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:7:in 'ParticipantsController#index'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:21:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/index.html.erb within layouts/application
+  [1m[36mParticipant Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "participants" LIMIT 1 /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/index.html.erb:75
+  Rendered participants/index.html.erb within layouts/application (Duration: 1.3ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 4.2ms | GC: 0.0ms)
+Completed 500 Internal Server Error in 115ms (ActiveRecord: 7.8ms (4 queries, 1 cached) | GC: 2.3ms)
+
+
+  
+ActionView::Template::Error (undefined method 'load_path' for an instance of Sprockets::Environment)
+Caused by: NoMethodError (undefined method 'load_path' for an instance of Sprockets::Environment)
+
+Information for: ActionView::Template::Error (undefined method 'load_path' for an instance of Sprockets::Environment):
+    21:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    22:     
+    23:     <%# Includes all stylesheet files in app/assets/stylesheets %>
+    24:     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    25:     <%= javascript_importmap_tags %>
+    26:     
+    27:     <%# Bootstrap JS %>
+  
+app/views/layouts/application.html.erb:24
+
+Information for cause: NoMethodError (undefined method 'load_path' for an instance of Sprockets::Environment):
+  
+app/views/layouts/application.html.erb:24
+Started GET "/" for ::1 at 2025-08-19 14:42:28 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EventDemo'*/[0m
+Processing by ParticipantsController#index as HTML
+  [1m[36mParticipant Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:6:in 'ParticipantsController#index'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:7:in 'ParticipantsController#index'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:21:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/index.html.erb within layouts/application
+  [1m[36mParticipant Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "participants" LIMIT 1 /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/index.html.erb:75
+  Rendered participants/index.html.erb within layouts/application (Duration: 1.5ms | GC: 0.3ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.3ms | GC: 0.3ms)
+Completed 500 Internal Server Error in 87ms (ActiveRecord: 8.0ms (4 queries, 1 cached) | GC: 1.8ms)
+
+
+  
+ActionView::Template::Error (undefined method 'load_path' for an instance of Sprockets::Environment)
+Caused by: NoMethodError (undefined method 'load_path' for an instance of Sprockets::Environment)
+
+Information for: ActionView::Template::Error (undefined method 'load_path' for an instance of Sprockets::Environment):
+    21:     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    22:     
+    23:     <%# Includes all stylesheet files in app/assets/stylesheets %>
+    24:     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    25:     <%= javascript_importmap_tags %>
+    26:     
+    27:     <%# Bootstrap JS %>
+  
+app/views/layouts/application.html.erb:24
+
+Information for cause: NoMethodError (undefined method 'load_path' for an instance of Sprockets::Environment):
+  
+app/views/layouts/application.html.erb:24
+Started GET "/favicon.ico" for ::1 at 2025-08-19 14:42:29 +0200
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EventDemo'*/[0m
+Started GET "/" for ::1 at 2025-08-19 14:45:10 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EventDemo'*/[0m
+Processing by ParticipantsController#index as HTML
+  [1m[36mParticipant Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:6:in 'ParticipantsController#index'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:7:in 'ParticipantsController#index'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:21:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/index.html.erb within layouts/application
+  [1m[36mParticipant Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "participants" LIMIT 1 /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/index.html.erb:75
+  Rendered participants/index.html.erb within layouts/application (Duration: 1.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 7.2ms | GC: 0.0ms)
+Completed 200 OK in 168ms (Views: 11.4ms | ActiveRecord: 8.6ms (4 queries, 1 cached) | GC: 4.9ms)
+
+
+Started GET "/assets/application-f8af609f.css" for ::1 at 2025-08-19 14:45:10 +0200
+Started GET "/assets/application-bfcdf840.js" for ::1 at 2025-08-19 14:45:10 +0200
+Started GET "/assets/controllers/hello_controller-708796bd.js" for ::1 at 2025-08-19 14:45:10 +0200
+Started GET "/participants/new" for ::1 at 2025-08-19 14:45:14 +0200
+Processing by ParticipantsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering participants/new.html.erb within layouts/application
+  Rendered participants/new.html.erb within layouts/application (Duration: 7.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 8.2ms | GC: 0.0ms)
+Completed 200 OK in 43ms (Views: 8.4ms | ActiveRecord: 3.7ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-08-19 14:45:22 +0200
+Processing by ParticipantsController#index as HTML
+  [1m[36mParticipant Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:6:in 'ParticipantsController#index'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:7:in 'ParticipantsController#index'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:21:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/index.html.erb within layouts/application
+  [1m[36mParticipant Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "participants" LIMIT 1 /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/index.html.erb:75
+  Rendered participants/index.html.erb within layouts/application (Duration: 0.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.0ms | GC: 0.0ms)
+Completed 200 OK in 30ms (Views: 1.1ms | ActiveRecord: 0.7ms (4 queries, 1 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-08-19 14:45:23 +0200
+Processing by ParticipantsController#index as HTML
+  [1m[36mParticipant Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:6:in 'ParticipantsController#index'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:7:in 'ParticipantsController#index'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:21:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/index.html.erb within layouts/application
+  [1m[36mParticipant Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "participants" LIMIT 1 /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/index.html.erb:75
+  Rendered participants/index.html.erb within layouts/application (Duration: 0.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.0ms | GC: 0.0ms)
+Completed 200 OK in 31ms (Views: 1.0ms | ActiveRecord: 0.7ms (4 queries, 1 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/admin" for ::1 at 2025-08-19 14:45:24 +0200
+Processing by ParticipantsController#admin as HTML
+  [1m[36mParticipant Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:46:in 'ParticipantsController#admin'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:47:in 'ParticipantsController#admin'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:48:in 'ParticipantsController#admin'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:21:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/admin.html.erb within layouts/application
+  [1m[36mParticipant Load (0.2ms)[0m  [1m[34mSELECT "participants".* FROM "participants" /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/admin.html.erb:57
+  Rendered participants/admin.html.erb within layouts/application (Duration: 0.8ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.5ms | GC: 0.0ms)
+Completed 200 OK in 34ms (Views: 1.5ms | ActiveRecord: 0.9ms (5 queries, 1 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/new" for ::1 at 2025-08-19 14:45:27 +0200
+Processing by ParticipantsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering participants/new.html.erb within layouts/application
+  Rendered participants/new.html.erb within layouts/application (Duration: 0.6ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 27ms (Views: 1.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-08-19 14:45:29 +0200
+Processing by ParticipantsController#index as HTML
+  [1m[36mParticipant Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:6:in 'ParticipantsController#index'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:7:in 'ParticipantsController#index'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:21:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/index.html.erb within layouts/application
+  [1m[36mParticipant Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "participants" LIMIT 1 /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/index.html.erb:75
+  Rendered participants/index.html.erb within layouts/application (Duration: 0.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 30ms (Views: 0.9ms | ActiveRecord: 0.6ms (4 queries, 1 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-08-19 14:45:31 +0200
+Processing by ParticipantsController#index as HTML
+  [1m[36mParticipant Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:6:in 'ParticipantsController#index'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:7:in 'ParticipantsController#index'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:21:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/index.html.erb within layouts/application
+  [1m[36mParticipant Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "participants" LIMIT 1 /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/index.html.erb:75
+  Rendered participants/index.html.erb within layouts/application (Duration: 0.6ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.1ms | GC: 0.0ms)
+Completed 200 OK in 33ms (Views: 1.0ms | ActiveRecord: 0.9ms (4 queries, 1 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/admin" for ::1 at 2025-08-19 14:46:01 +0200
+Processing by ParticipantsController#admin as HTML
+  [1m[36mParticipant Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:46:in 'ParticipantsController#admin'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:47:in 'ParticipantsController#admin'
+  [1m[36mParticipant Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:48:in 'ParticipantsController#admin'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:21:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/admin.html.erb within layouts/application
+  [1m[36mParticipant Load (0.1ms)[0m  [1m[34mSELECT "participants".* FROM "participants" /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/admin.html.erb:57
+  Rendered participants/admin.html.erb within layouts/application (Duration: 0.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 28ms (Views: 1.0ms | ActiveRecord: 0.7ms (5 queries, 1 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/new" for ::1 at 2025-08-19 14:46:02 +0200
+Processing by ParticipantsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering participants/new.html.erb within layouts/application
+  Rendered participants/new.html.erb within layouts/application (Duration: 0.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 29ms (Views: 1.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/participants" for ::1 at 2025-08-19 14:46:26 +0200
+Processing by ParticipantsController#create as TURBO_STREAM
+  Parameters: {"authenticity_token" => "[FILTERED]", "participant" => {"first_name" => "Test", "last_name" => "Testing", "email" => "[FILTERED]"}, "commit" => "Zarejestruj się"}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*action='create',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:18:in 'ParticipantsController#create'
+  [1m[36mParticipant Exists? (1.1ms)[0m  [1m[34mSELECT 1 AS one FROM "participants" WHERE "participants"."email" = 'test@testing.com' LIMIT 1 /*action='create',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:18:in 'ParticipantsController#create'
+  [1m[36mParticipant Create (0.8ms)[0m  [1m[32mINSERT INTO "participants" ("first_name", "last_name", "email", "confirmed", "qr_code", "scanned_at", "created_at", "updated_at") VALUES ('Test', 'Testing', 'test@testing.com', NULL, NULL, NULL, '2025-08-19 12:46:26.963690', '2025-08-19 12:46:26.963690') RETURNING "id" /*action='create',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:18:in 'ParticipantsController#create'
+  [1m[36mParticipant Update (3.7ms)[0m  [1m[33mUPDATE "participants" SET "qr_code" = '<?xml version="1.0" standalone="yes"?><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="198" height="198" shape-rendering="crispEdges"><rect width="6" height="6" x="0" y="0" fill="#000"/><rect width="6" height="6" x="6" y="0" fill="#000"/><rect width="6" height="6" x="12" y="0" fill="#000"/><rect width="6" height="6" x="18" y="0" fill="#000"/><rect width="6" height="6" x="24" y="0" fill="#000"/><rect width="6" height="6" x="30" y="0" fill="#000"/><rect width="6" height="6" x="36" y="0" fill="#000"/><rect width="6" height="6" x="48" y="0" fill="#000"/><rect width="6" height="6" x="60" y="0" fill="#000"/><rect width="6" height="6" x="66" y="0" fill="#000"/><rect width="6" height="6" x="90" y="0" fill="#000"/><rect width="6" height="6" x="126" y="0" fill="#000"/><rect width="6" height="6" x="138" y="0" fill="#000"/><rect width="6" height="6" x="156" y="0" fill="#000"/><rect width="6" height="6" x="162" y="0" fill="#000"/><rect width="6" height="6" x="168" y="0" fill="#000"/><rect width="6" height="6" x="174" y="0" fill="#000"/><rect width="6" height="6" x="180" y="0" fill="#000"/><rect width="6" height="6" x="186" y="0" fill="#000"/><rect width="6" height="6" x="192" y="0" fill="#000"/><rect width="6" height="6" x="0" y="6" fill="#000"/><rect width="6" height="6" x="36" y="6" fill="#000"/><rect width="6" height="6" x="48" y="6" fill="#000"/><rect width="6" height="6" x="72" y="6" fill="#000"/><rect width="6" height="6" x="78" y="6" fill="#000"/><rect width="6" height="6" x="90" y="6" fill="#000"/><rect width="6" height="6" x="96" y="6" fill="#000"/><rect width="6" height="6" x="120" y="6" fill="#000"/><rect width="6" height="6" x="126" y="6" fill="#000"/><rect width="6" height="6" x="132" y="6" fill="#000"/><rect width="6" height="6" x="156" y="6" fill="#000"/><rect width="6" height="6" x="192" y="6" fill="#000"/><rect width="6" height="6" x="0" y="12" fill="#000"/><rect width="6" height="6" x="12" y="12" fill="#000"/><rect width="6" height="6" x="18" y="12" fill="#000"/><rect width="6" height="6" x="24" y="12" fill="#000"/><rect width="6" height="6" x="36" y="12" fill="#000"/><rect width="6" height="6" x="48" y="12" fill="#000"/><rect width="6" height="6" x="54" y="12" fill="#000"/><rect width="6" height="6" x="84" y="12" fill="#000"/><rect width="6" height="6" x="126" y="12" fill="#000"/><rect width="6" height="6" x="132" y="12" fill="#000"/><rect width="6" height="6" x="138" y="12" fill="#000"/><rect width="6" height="6" x="144" y="12" fill="#000"/><rect width="6" height="6" x="156" y="12" fill="#000"/><rect width="6" height="6" x="168" y="12" fill="#000"/><rect width="6" height="6" x="174" y="12" fill="#000"/><rect width="6" height="6" x="180" y="12" fill="#000"/><rect width="6" height="6" x="192" y="12" fill="#000"/><rect width="6" height="6" x="0" y="18" fill="#000"/><rect width="6" height="6" x="12" y="18" fill="#000"/><rect width="6" height="6" x="18" y="18" fill="#000"/><rect width="6" height="6" x="24" y="18" fill="#000"/><rect width="6" height="6" x="36" y="18" fill="#000"/><rect width="6" height="6" x="60" y="18" fill="#000"/><rect width="6" height="6" x="66" y="18" fill="#000"/><rect width="6" height="6" x="72" y="18" fill="#000"/><rect width="6" height="6" x="102" y="18" fill="#000"/><rect width="6" height="6" x="120" y="18" fill="#000"/><rect width="6" height="6" x="132" y="18" fill="#000"/><rect width="6" height="6" x="156" y="18" fill="#000"/><rect width="6" height="6" x="168" y="18" fill="#000"/><rect width="6" height="6" x="174" y="18" fill="#000"/><rect width="6" height="6" x="180" y="18" fill="#000"/><rect width="6" height="6" x="192" y="18" fill="#000"/><rect width="6" height="6" x="0" y="24" fill="#000"/><rect width="6" height="6" x="12" y="24" fill="#000"/><rect width="6" height="6" x="18" y="24" fill="#000"/><rect width="6" height="6" x="24" y="24" fill="#000"/><rect width="6" height="6" x="36" y="24" fill="#000"/><rect width="6" height="6" x="60" y="24" fill="#000"/><rect width="6" height="6" x="78" y="24" fill="#000"/><rect width="6" height="6" x="102" y="24" fill="#000"/><rect width="6" height="6" x="108" y="24" fill="#000"/><rect width="6" height="6" x="114" y="24" fill="#000"/><rect width="6" height="6" x="120" y="24" fill="#000"/><rect width="6" height="6" x="144" y="24" fill="#000"/><rect width="6" height="6" x="156" y="24" fill="#000"/><rect width="6" height="6" x="168" y="24" fill="#000"/><rect width="6" height="6" x="174" y="24" fill="#000"/><rect width="6" height="6" x="180" y="24" fill="#000"/><rect width="6" height="6" x="192" y="24" fill="#000"/><rect width="6" height="6" x="0" y="30" fill="#000"/><rect width="6" height="6" x="36" y="30" fill="#000"/><rect width="6" height="6" x="48" y="30" fill="#000"/><rect width="6" height="6" x="54" y="30" fill="#000"/><rect width="6" height="6" x="60" y="30" fill="#000"/><rect width="6" height="6" x="66" y="30" fill="#000"/><rect width="6" height="6" x="72" y="30" fill="#000"/><rect width="6" height="6" x="90" y="30" fill="#000"/><rect width="6" height="6" x="96" y="30" fill="#000"/><rect width="6" height="6" x="108" y="30" fill="#000"/><rect width="6" height="6" x="126" y="30" fill="#000"/><rect width="6" height="6" x="156" y="30" fill="#000"/><rect width="6" height="6" x="192" y="30" fill="#000"/><rect width="6" height="6" x="0" y="36" fill="#000"/><rect width="6" height="6" x="6" y="36" fill="#000"/><rect width="6" height="6" x="12" y="36" fill="#000"/><rect width="6" height="6" x="18" y="36" fill="#000"/><rect width="6" height="6" x="24" y="36" fill="#000"/><rect width="6" height="6" x="30" y="36" fill="#000"/><rect width="6" height="6" x="36" y="36" fill="#000"/><rect width="6" height="6" x="48" y="36" fill="#000"/><rect width="6" height="6" x="60" y="36" fill="#000"/><rect width="6" height="6" x="72" y="36" fill="#000"/><rect width="6" height="6" x="84" y="36" fill="#000"/><rect width="6" height="6" x="96" y="36" fill="#000"/><rect width="6" height="6" x="108" y="36" fill="#000"/><rect width="6" height="6" x="120" y="36" fill="#000"/><rect width="6" height="6" x="132" y="36" fill="#000"/><rect width="6" height="6" x="144" y="36" fill="#000"/><rect width="6" height="6" x="156" y="36" fill="#000"/><rect width="6" height="6" x="162" y="36" fill="#000"/><rect width="6" height="6" x="168" y="36" fill="#000"/><rect width="6" height="6" x="174" y="36" fill="#000"/><rect width="6" height="6" x="180" y="36" fill="#000"/><rect width="6" height="6" x="186" y="36" fill="#000"/><rect width="6" height="6" x="192" y="36" fill="#000"/><rect width="6" height="6" x="48" y="42" fill="#000"/><rect width="6" height="6" x="54" y="42" fill="#000"/><rect width="6" height="6" x="60" y="42" fill="#000"/><rect width="6" height="6" x="72" y="42" fill="#000"/><rect width="6" height="6" x="114" y="42" fill="#000"/><rect width="6" height="6" x="120" y="42" fill="#000"/><rect width="6" height="6" x="126" y="42" fill="#000"/><rect width="6" height="6" x="132" y="42" fill="#000"/><rect width="6" height="6" x="144" y="42" fill="#000"/><rect width="6" height="6" x="12" y="48" fill="#000"/><rect width="6" height="6" x="18" y="48" fill="#000"/><rect width="6" height="6" x="24" y="48" fill="#000"/><rect width="6" height="6" x="36" y="48" fill="#000"/><rect width="6" height="6" x="48" y="48" fill="#000"/><rect width="6" height="6" x="60" y="48" fill="#000"/><rect width="6" height="6" x="72" y="48" fill="#000"/><rect width="6" height="6" x="108" y="48" fill="#000"/><rect width="6" height="6" x="114" y="48" fill="#000"/><rect width="6" height="6" x="150" y="48" fill="#000"/><rect width="6" height="6" x="156" y="48" fill="#000"/><rect width="6" height="6" x="162" y="48" fill="#000"/><rect width="6" height="6" x="180" y="48" fill="#000"/><rect width="6" height="6" x="186" y="48" fill="#000"/><rect width="6" height="6" x="192" y="48" fill="#000"/><rect width="6" height="6" x="0" y="54" fill="#000"/><rect width="6" height="6" x="6" y="54" fill="#000"/><rect width="6" height="6" x="12" y="54" fill="#000"/><rect width="6" height="6" x="18" y="54" fill="#000"/><rect width="6" height="6" x="42" y="54" fill="#000"/><rect width="6" height="6" x="48" y="54" fill="#000"/><rect width="6" height="6" x="66" y="54" fill="#000"/><rect width="6" height="6" x="90" y="54" fill="#000"/><rect width="6" height="6" x="102" y="54" fill="#000"/><rect width="6" height="6" x="108" y="54" fill="#000"/><rect width="6" height="6" x="114" y="54" fill="#000"/><rect width="6" height="6" x="132" y="54" fill="#000"/><rect width="6" height="6" x="138" y="54" fill="#000"/><rect width="6" height="6" x="144" y="54" fill="#000"/><rect width="6" height="6" x="150" y="54" fill="#000"/><rect width="6" height="6" x="156" y="54" fill="#000"/><rect width="6" height="6" x="180" y="54" fill="#000"/><rect width="6" height="6" x="192" y="54" fill="#000"/><rect width="6" height="6" x="0" y="60" fill="#000"/><rect width="6" height="6" x="18" y="60" fill="#000"/><rect width="6" height="6" x="30" y="60" fill="#000"/><rect width="6" height="6" x="36" y="60" fill="#000"/><rect width="6" height="6" x="48" y="60" fill="#000"/><rect width="6" height="6" x="54" y="60" fill="#000"/><rect width="6" height="6" x="72" y="60" fill="#000"/><rect width="6" height="6" x="90" y="60" fill="#000"/><rect width="6" height="6" x="96" y="60" fill="#000"/><rect width="6" height="6" x="102" y="60" fill="#000"/><rect width="6" height="6" x="120" y="60" fill="#000"/><rect width="6" height="6" x="132" y="60" fill="#000"/><rect width="6" height="6" x="150" y="60" fill="#000"/><rect width="6" height="6" x="156" y="60" fill="#000"/><rect width="6" height="6" x="162" y="60" fill="#000"/><rect width="6" height="6" x="168" y="60" fill="#000"/><rect width="6" height="6" x="186" y="60" fill="#000"/><rect width="6" height="6" x="12" y="66" fill="#000"/><rect width="6" height="6" x="24" y="66" fill="#000"/><rect width="6" height="6" x="30" y="66" fill="#000"/><rect width="6" height="6" x="84" y="66" fill="#000"/><rect width="6" height="6" x="120" y="66" fill="#000"/><rect width="6" height="6" x="144" y="66" fill="#000"/><rect width="6" height="6" x="150" y="66" fill="#000"/><rect width="6" height="6" x="156" y="66" fill="#000"/><rect width="6" height="6" x="162" y="66" fill="#000"/><rect width="6" height="6" x="180" y="66" fill="#000"/><rect width="6" height="6" x="186" y="66" fill="#000"/><rect width="6" height="6" x="0" y="72" fill="#000"/><rect width="6" height="6" x="12" y="72" fill="#000"/><rect width="6" height="6" x="30" y="72" fill="#000"/><rect width="6" height="6" x="36" y="72" fill="#000"/><rect width="6" height="6" x="48" y="72" fill="#000"/><rect width="6" height="6" x="54" y="72" fill="#000"/><rect width="6" height="6" x="66" y="72" fill="#000"/><rect width="6" height="6" x="72" y="72" fill="#000"/><rect width="6" height="6" x="84" y="72" fill="#000"/><rect width="6" height="6" x="90" y="72" fill="#000"/><rect width="6" height="6" x="96" y="72" fill="#000"/><rect width="6" height="6" x="102" y="72" fill="#000"/><rect width="6" height="6" x="114" y="72" fill="#000"/><rect width="6" height="6" x="120" y="72" fill="#000"/><rect width="6" height="6" x="126" y="72" fill="#000"/><rect width="6" height="6" x="132" y="72" fill="#000"/><rect width="6" height="6" x="138" y="72" fill="#000"/><rect width="6" height="6" x="144" y="72" fill="#000"/><rect width="6" height="6" x="168" y="72" fill="#000"/><rect width="6" height="6" x="174" y="72" fill="#000"/><rect width="6" height="6" x="6" y="78" fill="#000"/><rect width="6" height="6" x="18" y="78" fill="#000"/><rect width="6" height="6" x="30" y="78" fill="#000"/><rect width="6" height="6" x="54" y="78" fill="#000"/><rect width="6" height="6" x="84" y="78" fill="#000"/><rect width="6" height="6" x="102" y="78" fill="#000"/><rect width="6" height="6" x="114" y="78" fill="#000"/><rect width="6" height="6" x="120" y="78" fill="#000"/><rect width="6" height="6" x="138" y="78" fill="#000"/><rect width="6" height="6" x="150" y="78" fill="#000"/><rect width="6" height="6" x="156" y="78" fill="#000"/><rect width="6" height="6" x="162" y="78" fill="#000"/><rect width="6" height="6" x="180" y="78" fill="#000"/><rect width="6" height="6" x="186" y="78" fill="#000"/><rect width="6" height="6" x="192" y="78" fill="#000"/><rect width="6" height="6" x="0" y="84" fill="#000"/><rect width="6" height="6" x="12" y="84" fill="#000"/><rect width="6" height="6" x="36" y="84" fill="#000"/><rect width="6" height="6" x="42" y="84" fill="#000"/><rect width="6" height="6" x="84" y="84" fill="#000"/><rect width="6" height="6" x="90" y="84" fill="#000"/><rect width="6" height="6" x="114" y="84" fill="#000"/><rect width="6" height="6" x="126" y="84" fill="#000"/><rect width="6" height="6" x="150" y="84" fill="#000"/><rect width="6" height="6" x="162" y="84" fill="#000"/><rect width="6" height="6" x="168" y="84" fill="#000"/><rect width="6" height="6" x="180" y="84" fill="#000"/><rect width="6" height="6" x="186" y="84" fill="#000"/><rect width="6" height="6" x="30" y="90" fill="#000"/><rect width="6" height="6" x="48" y="90" fill="#000"/><rect width="6" height="6" x="54" y="90" fill="#000"/><rect width="6" height="6" x="66" y="90" fill="#000"/><rect width="6" height="6" x="72" y="90" fill="#000"/><rect width="6" height="6" x="78" y="90" fill="#000"/><rect width="6" height="6" x="84" y="90" fill="#000"/><rect width="6" height="6" x="90" y="90" fill="#000"/><rect width="6" height="6" x="108" y="90" fill="#000"/><rect width="6" height="6" x="126" y="90" fill="#000"/><rect width="6" height="6" x="132" y="90" fill="#000"/><rect width="6" height="6" x="138" y="90" fill="#000"/><rect width="6" height="6" x="150" y="90" fill="#000"/><rect width="6" height="6" x="174" y="90" fill="#000"/><rect width="6" height="6" x="180" y="90" fill="#000"/><rect width="6" height="6" x="192" y="90" fill="#000"/><rect width="6" height="6" x="0" y="96" fill="#000"/><rect width="6" height="6" x="6" y="96" fill="#000"/><rect width="6" height="6" x="12" y="96" fill="#000"/><rect width="6" height="6" x="30" y="96" fill="#000"/><rect width="6" height="6" x="36" y="96" fill="#000"/><rect width="6" height="6" x="48" y="96" fill="#000"/><rect width="6" height="6" x="60" y="96" fill="#000"/><rect width="6" height="6" x="66" y="96" fill="#000"/><rect width="6" height="6" x="72" y="96" fill="#000"/><rect width="6" height="6" x="78" y="96" fill="#000"/><rect width="6" height="6" x="96" y="96" fill="#000"/><rect width="6" height="6" x="108" y="96" fill="#000"/><rect width="6" height="6" x="132" y="96" fill="#000"/><rect width="6" height="6" x="138" y="96" fill="#000"/><rect width="6" height="6" x="144" y="96" fill="#000"/><rect width="6" height="6" x="162" y="96" fill="#000"/><rect width="6" height="6" x="168" y="96" fill="#000"/><rect width="6" height="6" x="186" y="96" fill="#000"/><rect width="6" height="6" x="192" y="96" fill="#000"/><rect width="6" height="6" x="0" y="102" fill="#000"/><rect width="6" height="6" x="6" y="102" fill="#000"/><rect width="6" height="6" x="12" y="102" fill="#000"/><rect width="6" height="6" x="18" y="102" fill="#000"/><rect width="6" height="6" x="24" y="102" fill="#000"/><rect width="6" height="6" x="42" y="102" fill="#000"/><rect width="6" height="6" x="48" y="102" fill="#000"/><rect width="6" height="6" x="60" y="102" fill="#000"/><rect width="6" height="6" x="66" y="102" fill="#000"/><rect width="6" height="6" x="90" y="102" fill="#000"/><rect width="6" height="6" x="96" y="102" fill="#000"/><rect width="6" height="6" x="102" y="102" fill="#000"/><rect width="6" height="6" x="108" y="102" fill="#000"/><rect width="6" height="6" x="114" y="102" fill="#000"/><rect width="6" height="6" x="120" y="102" fill="#000"/><rect width="6" height="6" x="126" y="102" fill="#000"/><rect width="6" height="6" x="132" y="102" fill="#000"/><rect width="6" height="6" x="138" y="102" fill="#000"/><rect width="6" height="6" x="150" y="102" fill="#000"/><rect width="6" height="6" x="156" y="102" fill="#000"/><rect width="6" height="6" x="180" y="102" fill="#000"/><rect width="6" height="6" x="186" y="102" fill="#000"/><rect width="6" height="6" x="192" y="102" fill="#000"/><rect width="6" height="6" x="0" y="108" fill="#000"/><rect width="6" height="6" x="6" y="108" fill="#000"/><rect width="6" height="6" x="36" y="108" fill="#000"/><rect width="6" height="6" x="48" y="108" fill="#000"/><rect width="6" height="6" x="54" y="108" fill="#000"/><rect width="6" height="6" x="60" y="108" fill="#000"/><rect width="6" height="6" x="66" y="108" fill="#000"/><rect width="6" height="6" x="78" y="108" fill="#000"/><rect width="6" height="6" x="84" y="108" fill="#000"/><rect width="6" height="6" x="90" y="108" fill="#000"/><rect width="6" height="6" x="96" y="108" fill="#000"/><rect width="6" height="6" x="114" y="108" fill="#000"/><rect width="6" height="6" x="126" y="108" fill="#000"/><rect width="6" height="6" x="132" y="108" fill="#000"/><rect width="6" height="6" x="156" y="108" fill="#000"/><rect width="6" height="6" x="180" y="108" fill="#000"/><rect width="6" height="6" x="6" y="114" fill="#000"/><rect width="6" height="6" x="12" y="114" fill="#000"/><rect width="6" height="6" x="18" y="114" fill="#000"/><rect width="6" height="6" x="24" y="114" fill="#000"/><rect width="6" height="6" x="30" y="114" fill="#000"/><rect width="6" height="6" x="42" y="114" fill="#000"/><rect width="6" height="6" x="48" y="114" fill="#000"/><rect width="6" height="6" x="72" y="114" fill="#000"/><rect width="6" height="6" x="84" y="114" fill="#000"/><rect width="6" height="6" x="96" y="114" fill="#000"/><rect width="6" height="6" x="102" y="114" fill="#000"/><rect width="6" height="6" x="108" y="114" fill="#000"/><rect width="6" height="6" x="126" y="114" fill="#000"/><rect width="6" height="6" x="144" y="114" fill="#000"/><rect width="6" height="6" x="150" y="114" fill="#000"/><rect width="6" height="6" x="174" y="114" fill="#000"/><rect width="6" height="6" x="180" y="114" fill="#000"/><rect width="6" height="6" x="186" y="114" fill="#000"/><rect width="6" height="6" x="36" y="120" fill="#000"/><rect width="6" height="6" x="42" y="120" fill="#000"/><rect width="6" height="6" x="54" y="120" fill="#000"/><rect width="6" height="6" x="60" y="120" fill="#000"/><rect width="6" height="6" x="78" y="120" fill="#000"/><rect width="6" height="6" x="84" y="120" fill="#000"/><rect width="6" height="6" x="102" y="120" fill="#000"/><rect width="6" height="6" x="138" y="120" fill="#000"/><rect width="6" height="6" x="144" y="120" fill="#000"/><rect width="6" height="6" x="186" y="120" fill="#000"/><rect width="6" height="6" x="0" y="126" fill="#000"/><rect width="6" height="6" x="6" y="126" fill="#000"/><rect width="6" height="6" x="12" y="126" fill="#000"/><rect width="6" height="6" x="30" y="126" fill="#000"/><rect width="6" height="6" x="42" y="126" fill="#000"/><rect width="6" height="6" x="48" y="126" fill="#000"/><rect width="6" height="6" x="54" y="126" fill="#000"/><rect width="6" height="6" x="60" y="126" fill="#000"/><rect width="6" height="6" x="78" y="126" fill="#000"/><rect width="6" height="6" x="84" y="126" fill="#000"/><rect width="6" height="6" x="96" y="126" fill="#000"/><rect width="6" height="6" x="114" y="126" fill="#000"/><rect width="6" height="6" x="132" y="126" fill="#000"/><rect width="6" height="6" x="174" y="126" fill="#000"/><rect width="6" height="6" x="192" y="126" fill="#000"/><rect width="6" height="6" x="0" y="132" fill="#000"/><rect width="6" height="6" x="12" y="132" fill="#000"/><rect width="6" height="6" x="24" y="132" fill="#000"/><rect width="6" height="6" x="36" y="132" fill="#000"/><rect width="6" height="6" x="42" y="132" fill="#000"/><rect width="6" height="6" x="48" y="132" fill="#000"/><rect width="6" height="6" x="54" y="132" fill="#000"/><rect width="6" height="6" x="66" y="132" fill="#000"/><rect width="6" height="6" x="72" y="132" fill="#000"/><rect width="6" height="6" x="78" y="132" fill="#000"/><rect width="6" height="6" x="90" y="132" fill="#000"/><rect width="6" height="6" x="96" y="132" fill="#000"/><rect width="6" height="6" x="108" y="132" fill="#000"/><rect width="6" height="6" x="126" y="132" fill="#000"/><rect width="6" height="6" x="138" y="132" fill="#000"/><rect width="6" height="6" x="144" y="132" fill="#000"/><rect width="6" height="6" x="150" y="132" fill="#000"/><rect width="6" height="6" x="162" y="132" fill="#000"/><rect width="6" height="6" x="186" y="132" fill="#000"/><rect width="6" height="6" x="0" y="138" fill="#000"/><rect width="6" height="6" x="18" y="138" fill="#000"/><rect width="6" height="6" x="66" y="138" fill="#000"/><rect width="6" height="6" x="72" y="138" fill="#000"/><rect width="6" height="6" x="78" y="138" fill="#000"/><rect width="6" height="6" x="84" y="138" fill="#000"/><rect width="6" height="6" x="90" y="138" fill="#000"/><rect width="6" height="6" x="120" y="138" fill="#000"/><rect width="6" height="6" x="126" y="138" fill="#000"/><rect width="6" height="6" x="138" y="138" fill="#000"/><rect width="6" height="6" x="174" y="138" fill="#000"/><rect width="6" height="6" x="180" y="138" fill="#000"/><rect width="6" height="6" x="186" y="138" fill="#000"/><rect width="6" height="6" x="192" y="138" fill="#000"/><rect width="6" height="6" x="0" y="144" fill="#000"/><rect width="6" height="6" x="12" y="144" fill="#000"/><rect width="6" height="6" x="24" y="144" fill="#000"/><rect width="6" height="6" x="36" y="144" fill="#000"/><rect width="6" height="6" x="42" y="144" fill="#000"/><rect width="6" height="6" x="48" y="144" fill="#000"/><rect width="6" height="6" x="54" y="144" fill="#000"/><rect width="6" height="6" x="78" y="144" fill="#000"/><rect width="6" height="6" x="102" y="144" fill="#000"/><rect width="6" height="6" x="108" y="144" fill="#000"/><rect width="6" height="6" x="114" y="144" fill="#000"/><rect width="6" height="6" x="138" y="144" fill="#000"/><rect width="6" height="6" x="144" y="144" fill="#000"/><rect width="6" height="6" x="150" y="144" fill="#000"/><rect width="6" height="6" x="156" y="144" fill="#000"/><rect width="6" height="6" x="162" y="144" fill="#000"/><rect width="6" height="6" x="168" y="144" fill="#000"/><rect width="6" height="6" x="174" y="144" fill="#000"/><rect width="6" height="6" x="48" y="150" fill="#000"/><rect width="6" height="6" x="54" y="150" fill="#000"/><rect width="6" height="6" x="66" y="150" fill="#000"/><rect width="6" height="6" x="78" y="150" fill="#000"/><rect width="6" height="6" x="84" y="150" fill="#000"/><rect width="6" height="6" x="90" y="150" fill="#000"/><rect width="6" height="6" x="108" y="150" fill="#000"/><rect width="6" height="6" x="114" y="150" fill="#000"/><rect width="6" height="6" x="126" y="150" fill="#000"/><rect width="6" height="6" x="132" y="150" fill="#000"/><rect width="6" height="6" x="138" y="150" fill="#000"/><rect width="6" height="6" x="144" y="150" fill="#000"/><rect width="6" height="6" x="168" y="150" fill="#000"/><rect width="6" height="6" x="180" y="150" fill="#000"/><rect width="6" height="6" x="192" y="150" fill="#000"/><rect width="6" height="6" x="0" y="156" fill="#000"/><rect width="6" height="6" x="6" y="156" fill="#000"/><rect width="6" height="6" x="12" y="156" fill="#000"/><rect width="6" height="6" x="18" y="156" fill="#000"/><rect width="6" height="6" x="24" y="156" fill="#000"/><rect width="6" height="6" x="30" y="156" fill="#000"/><rect width="6" height="6" x="36" y="156" fill="#000"/><rect width="6" height="6" x="60" y="156" fill="#000"/><rect width="6" height="6" x="72" y="156" fill="#000"/><rect width="6" height="6" x="78" y="156" fill="#000"/><rect width="6" height="6" x="120" y="156" fill="#000"/><rect width="6" height="6" x="126" y="156" fill="#000"/><rect width="6" height="6" x="138" y="156" fill="#000"/><rect width="6" height="6" x="144" y="156" fill="#000"/><rect width="6" height="6" x="156" y="156" fill="#000"/><rect width="6" height="6" x="168" y="156" fill="#000"/><rect width="6" height="6" x="186" y="156" fill="#000"/><rect width="6" height="6" x="0" y="162" fill="#000"/><rect width="6" height="6" x="36" y="162" fill="#000"/><rect width="6" height="6" x="66" y="162" fill="#000"/><rect width="6" height="6" x="78" y="162" fill="#000"/><rect width="6" height="6" x="102" y="162" fill="#000"/><rect width="6" height="6" x="126" y="162" fill="#000"/><rect width="6" height="6" x="132" y="162" fill="#000"/><rect width="6" height="6" x="144" y="162" fill="#000"/><rect width="6" height="6" x="168" y="162" fill="#000"/><rect width="6" height="6" x="180" y="162" fill="#000"/><rect width="6" height="6" x="0" y="168" fill="#000"/><rect width="6" height="6" x="12" y="168" fill="#000"/><rect width="6" height="6" x="18" y="168" fill="#000"/><rect width="6" height="6" x="24" y="168" fill="#000"/><rect width="6" height="6" x="36" y="168" fill="#000"/><rect width="6" height="6" x="48" y="168" fill="#000"/><rect width="6" height="6" x="60" y="168" fill="#000"/><rect width="6" height="6" x="66" y="168" fill="#000"/><rect width="6" height="6" x="102" y="168" fill="#000"/><rect width="6" height="6" x="114" y="168" fill="#000"/><rect width="6" height="6" x="120" y="168" fill="#000"/><rect width="6" height="6" x="126" y="168" fill="#000"/><rect width="6" height="6" x="144" y="168" fill="#000"/><rect width="6" height="6" x="150" y="168" fill="#000"/><rect width="6" height="6" x="156" y="168" fill="#000"/><rect width="6" height="6" x="162" y="168" fill="#000"/><rect width="6" height="6" x="168" y="168" fill="#000"/><rect width="6" height="6" x="174" y="168" fill="#000"/><rect width="6" height="6" x="0" y="174" fill="#000"/><rect width="6" height="6" x="12" y="174" fill="#000"/><rect width="6" height="6" x="18" y="174" fill="#000"/><rect width="6" height="6" x="24" y="174" fill="#000"/><rect width="6" height="6" x="36" y="174" fill="#000"/><rect width="6" height="6" x="48" y="174" fill="#000"/><rect width="6" height="6" x="54" y="174" fill="#000"/><rect width="6" height="6" x="60" y="174" fill="#000"/><rect width="6" height="6" x="78" y="174" fill="#000"/><rect width="6" height="6" x="132" y="174" fill="#000"/><rect width="6" height="6" x="138" y="174" fill="#000"/><rect width="6" height="6" x="150" y="174" fill="#000"/><rect width="6" height="6" x="168" y="174" fill="#000"/><rect width="6" height="6" x="180" y="174" fill="#000"/><rect width="6" height="6" x="186" y="174" fill="#000"/><rect width="6" height="6" x="0" y="180" fill="#000"/><rect width="6" height="6" x="12" y="180" fill="#000"/><rect width="6" height="6" x="18" y="180" fill="#000"/><rect width="6" height="6" x="24" y="180" fill="#000"/><rect width="6" height="6" x="36" y="180" fill="#000"/><rect width="6" height="6" x="48" y="180" fill="#000"/><rect width="6" height="6" x="60" y="180" fill="#000"/><rect width="6" height="6" x="96" y="180" fill="#000"/><rect width="6" height="6" x="108" y="180" fill="#000"/><rect width="6" height="6" x="132" y="180" fill="#000"/><rect width="6" height="6" x="138" y="180" fill="#000"/><rect width="6" height="6" x="144" y="180" fill="#000"/><rect width="6" height="6" x="156" y="180" fill="#000"/><rect width="6" height="6" x="0" y="186" fill="#000"/><rect width="6" height="6" x="36" y="186" fill="#000"/><rect width="6" height="6" x="60" y="186" fill="#000"/><rect width="6" height="6" x="66" y="186" fill="#000"/><rect width="6" height="6" x="90" y="186" fill="#000"/><rect width="6" height="6" x="102" y="186" fill="#000"/><rect width="6" height="6" x="138" y="186" fill="#000"/><rect width="6" height="6" x="144" y="186" fill="#000"/><rect width="6" height="6" x="174" y="186" fill="#000"/><rect width="6" height="6" x="180" y="186" fill="#000"/><rect width="6" height="6" x="0" y="192" fill="#000"/><rect width="6" height="6" x="6" y="192" fill="#000"/><rect width="6" height="6" x="12" y="192" fill="#000"/><rect width="6" height="6" x="18" y="192" fill="#000"/><rect width="6" height="6" x="24" y="192" fill="#000"/><rect width="6" height="6" x="30" y="192" fill="#000"/><rect width="6" height="6" x="36" y="192" fill="#000"/><rect width="6" height="6" x="66" y="192" fill="#000"/><rect width="6" height="6" x="84" y="192" fill="#000"/><rect width="6" height="6" x="96" y="192" fill="#000"/><rect width="6" height="6" x="102" y="192" fill="#000"/><rect width="6" height="6" x="126" y="192" fill="#000"/><rect width="6" height="6" x="138" y="192" fill="#000"/><rect width="6" height="6" x="144" y="192" fill="#000"/><rect width="6" height="6" x="150" y="192" fill="#000"/><rect width="6" height="6" x="162" y="192" fill="#000"/><rect width="6" height="6" x="186" y="192" fill="#000"/></svg>' WHERE "participants"."id" = 1 /*action='create',application='EventDemo',controller='participants'*/[0m
+  ↳ app/models/participant.rb:31:in 'Participant#generate_qr_code'
+[ActiveJob] Enqueued ActionMailer::MailDeliveryJob (Job ID: d1c47b01-590c-4e61-863d-05e2c8d05d2d) to Async(default) with arguments: "ParticipantMailer", "confirmation_email", "deliver_now", {args: [#<GlobalID:0x000000015177bd50 @uri=#<URI::GID gid://event-demo/Participant/1>>]}
+[ActiveJob] ↳ app/models/participant.rb:41:in 'Participant#send_confirmation_email'
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[35mCOMMIT /*action='create',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:18:in 'ParticipantsController#create'
+Redirected to http://localhost:3000/participants/1
+Completed 302 Found in 79ms (ActiveRecord: 7.0ms (3 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/1" for ::1 at 2025-08-19 14:46:27 +0200
+[ActiveJob] [ActionMailer::MailDeliveryJob] [d1c47b01-590c-4e61-863d-05e2c8d05d2d]   [1m[36mParticipant Load (0.5ms)[0m  [1m[34mSELECT "participants".* FROM "participants" WHERE "participants"."id" = 1 LIMIT 1 /*application='EventDemo'*/[0m
+[ActiveJob] [ActionMailer::MailDeliveryJob] [d1c47b01-590c-4e61-863d-05e2c8d05d2d] Performing ActionMailer::MailDeliveryJob (Job ID: d1c47b01-590c-4e61-863d-05e2c8d05d2d) from Async(default) enqueued at 2025-08-19T12:46:27.019463000Z with arguments: "ParticipantMailer", "confirmation_email", "deliver_now", {args: [#<GlobalID:0x00000001517f5998 @uri=#<URI::GID gid://event-demo/Participant/1>>]}
+[ActiveJob] [ActionMailer::MailDeliveryJob] [d1c47b01-590c-4e61-863d-05e2c8d05d2d]   Rendering layout layouts/mailer.html.erb
+[ActiveJob] [ActionMailer::MailDeliveryJob] [d1c47b01-590c-4e61-863d-05e2c8d05d2d]   Rendering participant_mailer/confirmation_email.html.erb within layouts/mailer
+[ActiveJob] [ActionMailer::MailDeliveryJob] [d1c47b01-590c-4e61-863d-05e2c8d05d2d]   Rendered participant_mailer/confirmation_email.html.erb within layouts/mailer (Duration: 0.3ms | GC: 0.0ms)
+[ActiveJob] [ActionMailer::MailDeliveryJob] [d1c47b01-590c-4e61-863d-05e2c8d05d2d]   Rendered layout layouts/mailer.html.erb (Duration: 0.5ms | GC: 0.0ms)
+[ActiveJob] [ActionMailer::MailDeliveryJob] [d1c47b01-590c-4e61-863d-05e2c8d05d2d]   Rendering layout layouts/mailer.text.erb
+[ActiveJob] [ActionMailer::MailDeliveryJob] [d1c47b01-590c-4e61-863d-05e2c8d05d2d]   Rendering participant_mailer/confirmation_email.text.erb within layouts/mailer
+[ActiveJob] [ActionMailer::MailDeliveryJob] [d1c47b01-590c-4e61-863d-05e2c8d05d2d]   Rendered participant_mailer/confirmation_email.text.erb within layouts/mailer (Duration: 0.7ms | GC: 0.6ms)
+[ActiveJob] [ActionMailer::MailDeliveryJob] [d1c47b01-590c-4e61-863d-05e2c8d05d2d]   Rendered layout layouts/mailer.text.erb (Duration: 0.9ms | GC: 0.6ms)
+[ActiveJob] [ActionMailer::MailDeliveryJob] [d1c47b01-590c-4e61-863d-05e2c8d05d2d] ParticipantMailer#confirmation_email: processed outbound mail in 11.4ms
+[ActiveJob] [ActionMailer::MailDeliveryJob] [d1c47b01-590c-4e61-863d-05e2c8d05d2d] Delivered mail 68a47223c98c_3f422940375d@Mac-mini-Lech.local.mail (20.2ms)
+Processing by ParticipantsController#show as TURBO_STREAM
+[ActiveJob] [ActionMailer::MailDeliveryJob] [d1c47b01-590c-4e61-863d-05e2c8d05d2d] Date: Tue, 19 Aug 2025 14:46:27 +0200
+From: from@example.com
+To: test@testing.com
+Message-ID: <68a47223c98c_3f422940375d@Mac-mini-Lech.local.mail>
+Subject: =?UTF-8?Q?Potwierd=C5=BA_swoj=C4=85_rejestracj=C4=99_na_Accenture?=
+ =?UTF-8?Q?_Community_Meeting_=2225?=
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_68a47223b973_3f4229403663";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+
+----==_mimepart_68a47223b973_3f4229403663
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Accenture Community Meeting '25
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+Witaj Test Testing!
+
+Dzi=C4=99kujemy za rejestracj=C4=99 na Accenture Community Meeting '25!
+
+Aby potwierdzi=C4=87 swoj=C4=85 rejestracj=C4=99 i otrzyma=C4=87 kod QR d=
+o wydarzenia, =
+
+odwied=C5=BA poni=C5=BCszy link:
+
+http://localhost:3000/participants/1/confirm
+
+AGENDA WYDARZENIA:
+------------------
+18:00-19:00 - Rejestracja uczestnik=C3=B3w
+19:00-19:30 - Oficjalne przem=C3=B3wienie  =
+
+19:30-20:00 - Konkurs
+20:00-21:00 - Kolacja z muzyk=C4=85
+21:00-21:10 - Rozstrzygni=C4=99cie konkursu
+21:10-3:00  - Cz=C4=99=C5=9B=C4=87 muzyczno-artystyczna
+
+WA=C5=BBNE INFORMACJE:
+-----------------
+* Po potwierdzeniu rejestracji otrzymasz unikalny kod QR
+* Kod QR b=C4=99dzie potrzebny przy wej=C5=9Bciu na wydarzenie
+* Kod mo=C5=BCe by=C4=87 zeskanowany tylko raz
+
+W razie pyta=C5=84 skontaktuj si=C4=99 z organizatorami.
+
+Do zobaczenia na wydarzeniu!
+
+Zesp=C3=B3=C5=82 Accenture
+
+
+----==_mimepart_68a47223b973_3f4229403663
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!-- BEGIN app/views/layouts/mailer.html.erb --><!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8">
+    <style>
+      /* Email styles need to be inline */
+    </style>
+  </head>
+
+  <body>
+    <!-- BEGIN app/views/participant_mailer/confirmation_email.html.erb -=
+-><!DOCTYPE html>
+<html>
+<head>
+  <meta charset=3D"utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333;=
+ }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background-color: #1e293b; color: white; padding: 20px; tex=
+t-align: center; }
+    .content { background-color: #f8f9fa; padding: 30px; }
+    .button { display: inline-block; background-color: #ec4899; color: wh=
+ite; padding: 12px 30px; text-decoration: none; border-radius: 5px; }
+    .agenda { background-color: white; padding: 20px; margin: 20px 0; bor=
+der-radius: 5px; }
+  </style>
+</head>
+<body>
+  <div class=3D"container">
+    <div class=3D"header">
+      <h1>Accenture Community Meeting '25</h1>
+    </div>
+    =
+
+    <div class=3D"content">
+      <h2>Witaj Test Testing!</h2>
+      =
+
+      <p>Dzi=C4=99kujemy za rejestracj=C4=99 na <strong>Accenture Communi=
+ty Meeting '25</strong>!</p>
+      =
+
+      <p>Aby potwierdzi=C4=87 swoj=C4=85 rejestracj=C4=99 i otrzyma=C4=87=
+ kod QR do wydarzenia, kliknij poni=C5=BCszy przycisk:</p>
+      =
+
+      <p style=3D"text-align: center; margin: 30px 0;">
+        <a href=3D"http://localhost:3000/participants/1/confirm" class=3D=
+"button">Potwierd=C5=BA rejestracj=C4=99</a>
+      </p>
+      =
+
+      <div class=3D"agenda">
+        <h3>Agenda Wydarzenia:</h3>
+        <ul>
+          <li><strong>18:00-19:00</strong> - Rejestracja uczestnik=C3=B3w=
+</li>
+          <li><strong>19:00-19:30</strong> - Oficjalne przem=C3=B3wienie<=
+/li>
+          <li><strong>19:30-20:00</strong> - Konkurs</li>
+          <li><strong>20:00-21:00</strong> - Kolacja z muzyk=C4=85</li>
+          <li><strong>21:00-21:10</strong> - Rozstrzygni=C4=99cie konkurs=
+u</li>
+          <li><strong>21:10-3:00</strong> - Cz=C4=99=C5=9B=C4=87 muzyczno=
+-artystyczna</li>
+        </ul>
+      </div>
+      =
+
+      <p><strong>Wa=C5=BCne informacje:</strong></p>
+      <ul>
+        <li>Po potwierdzeniu rejestracji otrzymasz unikalny kod QR</li>
+        <li>Kod QR b=C4=99dzie potrzebny przy wej=C5=9Bciu na wydarzenie<=
+/li>
+        <li>Kod mo=C5=BCe by=C4=87 zeskanowany tylko raz</li>
+      </ul>
+      =
+
+      <p>W razie pyta=C5=84 skontaktuj si=C4=99 z organizatorami.</p>
+      =
+
+      <p>Do zobaczenia na wydarzeniu!</p>
+      <p><strong>Zesp=C3=B3=C5=82 Accenture</strong></p>
+    </div>
+  </div>
+</body>
+</html>
+<!-- END app/views/participant_mailer/confirmation_email.html.erb -->
+  </body>
+</html>
+<!-- END app/views/layouts/mailer.html.erb -->=
+
+----==_mimepart_68a47223b973_3f4229403663--
+
+  Parameters: {"id" => "1"}
+[ActiveJob] [ActionMailer::MailDeliveryJob] [d1c47b01-590c-4e61-863d-05e2c8d05d2d] Performed ActionMailer::MailDeliveryJob (Job ID: d1c47b01-590c-4e61-863d-05e2c8d05d2d) from Async(default) in 43.81ms
+  [1m[36mParticipant Load (0.4ms)[0m  [1m[34mSELECT "participants".* FROM "participants" WHERE "participants"."id" = 1 LIMIT 1 /*action='show',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:56:in 'ParticipantsController#set_participant'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/show.html.erb within layouts/application
+  Rendered participants/show.html.erb within layouts/application (Duration: 0.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 24ms (Views: 1.1ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/1/confirm" for ::1 at 2025-08-19 14:47:14 +0200
+  
+ActionController::RoutingError (No route matches [GET] "/participants/1/confirm"):
+  
+Started GET "/" for ::1 at 2025-08-19 14:47:24 +0200
+Processing by ParticipantsController#index as HTML
+  [1m[36mParticipant Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:6:in 'ParticipantsController#index'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:7:in 'ParticipantsController#index'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:21:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/index.html.erb within layouts/application
+  [1m[36mParticipant Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "participants" LIMIT 1 /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/index.html.erb:75
+  [1m[36mParticipant Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/index.html.erb:85
+  Rendered participants/index.html.erb within layouts/application (Duration: 0.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.4ms | GC: 0.0ms)
+Completed 200 OK in 29ms (Views: 1.4ms | ActiveRecord: 0.8ms (5 queries, 1 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-08-19 14:50:53 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EventDemo'*/[0m
+Processing by ParticipantsController#index as HTML
+  [1m[36mParticipant Count (1.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:6:in 'ParticipantsController#index'
+  [1m[36mParticipant Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:7:in 'ParticipantsController#index'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:22:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/index.html.erb within layouts/application
+  [1m[36mParticipant Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "participants" LIMIT 1 /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/index.html.erb:75
+  [1m[36mParticipant Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/index.html.erb:85
+  Rendered participants/index.html.erb within layouts/application (Duration: 1.3ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 9.3ms | GC: 0.0ms)
+Completed 200 OK in 132ms (Views: 10.5ms | ActiveRecord: 7.7ms (5 queries, 1 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/new" for ::1 at 2025-08-19 14:50:56 +0200
+Processing by ParticipantsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering participants/new.html.erb within layouts/application
+  Rendered participants/new.html.erb within layouts/application (Duration: 1.6ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.9ms | GC: 0.0ms)
+Completed 200 OK in 39ms (Views: 2.1ms | ActiveRecord: 3.9ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/admin" for ::1 at 2025-08-19 14:50:56 +0200
+Processing by ParticipantsController#admin as HTML
+  [1m[36mParticipant Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:50:in 'ParticipantsController#admin'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:51:in 'ParticipantsController#admin'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:52:in 'ParticipantsController#admin'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:22:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/admin.html.erb within layouts/application
+  [1m[36mParticipant Load (0.4ms)[0m  [1m[34mSELECT "participants".* FROM "participants" /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/admin.html.erb:57
+  Rendered participants/admin.html.erb within layouts/application (Duration: 1.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.9ms | GC: 0.0ms)
+Completed 200 OK in 32ms (Views: 1.6ms | ActiveRecord: 1.2ms (5 queries, 1 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/1" for ::1 at 2025-08-19 14:51:00 +0200
+Processing by ParticipantsController#show as HTML
+  Parameters: {"id" => "1"}
+  [1m[36mParticipant Load (0.6ms)[0m  [1m[34mSELECT "participants".* FROM "participants" WHERE "participants"."id" = 1 LIMIT 1 /*action='show',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:60:in 'ParticipantsController#set_participant'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/show.html.erb within layouts/application
+  Rendered participants/show.html.erb within layouts/application (Duration: 0.3ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.8ms | GC: 0.0ms)
+Completed 200 OK in 29ms (Views: 0.9ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/1/confirm" for ::1 at 2025-08-19 14:51:23 +0200
+Processing by ParticipantsController#confirm as HTML
+  Parameters: {"id" => "1"}
+  [1m[36mParticipant Load (0.5ms)[0m  [1m[34mSELECT "participants".* FROM "participants" WHERE "participants"."id" = 1 LIMIT 1 /*action='confirm',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:60:in 'ParticipantsController#set_participant'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*action='confirm',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:42:in 'ParticipantsController#confirm'
+  [1m[36mParticipant Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "participants" WHERE "participants"."email" = 'test@testing.com' AND "participants"."id" != 1 LIMIT 1 /*action='confirm',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:42:in 'ParticipantsController#confirm'
+  [1m[36mParticipant Update (0.4ms)[0m  [1m[33mUPDATE "participants" SET "confirmed" = TRUE, "updated_at" = '2025-08-19 12:51:23.094591' WHERE "participants"."id" = 1 /*action='confirm',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:42:in 'ParticipantsController#confirm'
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[35mCOMMIT /*action='confirm',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:42:in 'ParticipantsController#confirm'
+Redirected to http://localhost:3000/participants/1
+Completed 302 Found in 33ms (ActiveRecord: 4.1ms (3 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/1" for ::1 at 2025-08-19 14:51:23 +0200
+Processing by ParticipantsController#show as HTML
+  Parameters: {"id" => "1"}
+  [1m[36mParticipant Load (0.4ms)[0m  [1m[34mSELECT "participants".* FROM "participants" WHERE "participants"."id" = 1 LIMIT 1 /*action='show',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:60:in 'ParticipantsController#set_participant'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/show.html.erb within layouts/application
+  Rendered participants/show.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.6ms | GC: 0.0ms)
+Completed 200 OK in 20ms (Views: 0.7ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/admin" for ::1 at 2025-08-19 14:51:31 +0200
+Processing by ParticipantsController#admin as HTML
+  [1m[36mParticipant Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:50:in 'ParticipantsController#admin'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:51:in 'ParticipantsController#admin'
+  [1m[36mParticipant Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:52:in 'ParticipantsController#admin'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:22:in 'Participant.attendance_percentage'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL[0m
+  ↳ app/models/participant.rb:23:in 'Participant.attendance_percentage'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:23:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/admin.html.erb within layouts/application
+  [1m[36mParticipant Load (0.2ms)[0m  [1m[34mSELECT "participants".* FROM "participants" /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/admin.html.erb:57
+  Rendered participants/admin.html.erb within layouts/application (Duration: 0.7ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.1ms | GC: 0.0ms)
+Completed 200 OK in 32ms (Views: 1.0ms | ActiveRecord: 0.9ms (7 queries, 3 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/new" for ::1 at 2025-08-19 14:51:31 +0200
+Processing by ParticipantsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering participants/new.html.erb within layouts/application
+  Rendered participants/new.html.erb within layouts/application (Duration: 0.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.8ms | GC: 0.0ms)
+Completed 200 OK in 27ms (Views: 1.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/admin" for ::1 at 2025-08-19 14:51:32 +0200
+Processing by ParticipantsController#admin as HTML
+  [1m[36mParticipant Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:50:in 'ParticipantsController#admin'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:51:in 'ParticipantsController#admin'
+  [1m[36mParticipant Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:52:in 'ParticipantsController#admin'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:22:in 'Participant.attendance_percentage'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL[0m
+  ↳ app/models/participant.rb:23:in 'Participant.attendance_percentage'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:23:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/admin.html.erb within layouts/application
+  [1m[36mParticipant Load (0.2ms)[0m  [1m[34mSELECT "participants".* FROM "participants" /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/admin.html.erb:57
+  Rendered participants/admin.html.erb within layouts/application (Duration: 0.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.5ms | GC: 0.0ms)
+Completed 200 OK in 33ms (Views: 1.5ms | ActiveRecord: 0.9ms (7 queries, 3 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/1" for ::1 at 2025-08-19 14:51:39 +0200
+Processing by ParticipantsController#show as HTML
+  Parameters: {"id" => "1"}
+  [1m[36mParticipant Load (0.5ms)[0m  [1m[34mSELECT "participants".* FROM "participants" WHERE "participants"."id" = 1 LIMIT 1 /*action='show',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:60:in 'ParticipantsController#set_participant'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/show.html.erb within layouts/application
+  Rendered participants/show.html.erb within layouts/application (Duration: 0.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.6ms | GC: 0.0ms)
+Completed 200 OK in 31ms (Views: 0.8ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/new" for ::1 at 2025-08-19 14:51:45 +0200
+Processing by ParticipantsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering participants/new.html.erb within layouts/application
+  Rendered participants/new.html.erb within layouts/application (Duration: 0.6ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 28ms (Views: 1.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/admin" for ::1 at 2025-08-19 14:51:45 +0200
+Processing by ParticipantsController#admin as HTML
+  [1m[36mParticipant Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:50:in 'ParticipantsController#admin'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:51:in 'ParticipantsController#admin'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:52:in 'ParticipantsController#admin'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:22:in 'Participant.attendance_percentage'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL[0m
+  ↳ app/models/participant.rb:23:in 'Participant.attendance_percentage'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:23:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/admin.html.erb within layouts/application
+  [1m[36mParticipant Load (0.4ms)[0m  [1m[34mSELECT "participants".* FROM "participants" /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/admin.html.erb:57
+  Rendered participants/admin.html.erb within layouts/application (Duration: 0.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.3ms | GC: 0.0ms)
+Completed 200 OK in 32ms (Views: 1.1ms | ActiveRecord: 1.1ms (7 queries, 3 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/new" for ::1 at 2025-08-19 14:51:50 +0200
+Processing by ParticipantsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering participants/new.html.erb within layouts/application
+  Rendered participants/new.html.erb within layouts/application (Duration: 0.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.8ms | GC: 0.0ms)
+Completed 200 OK in 29ms (Views: 1.0ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/admin" for ::1 at 2025-08-19 14:51:54 +0200
+Processing by ParticipantsController#admin as HTML
+  [1m[36mParticipant Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:50:in 'ParticipantsController#admin'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:51:in 'ParticipantsController#admin'
+  [1m[36mParticipant Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:52:in 'ParticipantsController#admin'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:22:in 'Participant.attendance_percentage'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL[0m
+  ↳ app/models/participant.rb:23:in 'Participant.attendance_percentage'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:23:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/admin.html.erb within layouts/application
+  [1m[36mParticipant Load (0.2ms)[0m  [1m[34mSELECT "participants".* FROM "participants" /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/admin.html.erb:57
+  Rendered participants/admin.html.erb within layouts/application (Duration: 0.7ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.2ms | GC: 0.0ms)
+Completed 200 OK in 31ms (Views: 1.2ms | ActiveRecord: 0.9ms (7 queries, 3 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/new" for ::1 at 2025-08-19 14:51:55 +0200
+Processing by ParticipantsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering participants/new.html.erb within layouts/application
+  Rendered participants/new.html.erb within layouts/application (Duration: 0.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.8ms | GC: 0.0ms)
+Completed 200 OK in 29ms (Views: 1.0ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/admin" for ::1 at 2025-08-19 14:51:56 +0200
+Processing by ParticipantsController#admin as HTML
+  [1m[36mParticipant Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:50:in 'ParticipantsController#admin'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:51:in 'ParticipantsController#admin'
+  [1m[36mParticipant Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:52:in 'ParticipantsController#admin'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:22:in 'Participant.attendance_percentage'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL[0m
+  ↳ app/models/participant.rb:23:in 'Participant.attendance_percentage'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:23:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/admin.html.erb within layouts/application
+  [1m[36mParticipant Load (0.4ms)[0m  [1m[34mSELECT "participants".* FROM "participants" /*action='admin',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/admin.html.erb:57
+  Rendered participants/admin.html.erb within layouts/application (Duration: 0.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.3ms | GC: 0.0ms)
+Completed 200 OK in 32ms (Views: 1.1ms | ActiveRecord: 1.0ms (7 queries, 3 cached) | GC: 0.0ms)
+
+
+Started GET "/participants/new" for ::1 at 2025-08-19 14:51:56 +0200
+Processing by ParticipantsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering participants/new.html.erb within layouts/application
+  Rendered participants/new.html.erb within layouts/application (Duration: 9.0ms | GC: 8.4ms)
+  Rendered layout layouts/application.html.erb (Duration: 9.4ms | GC: 8.4ms)
+Completed 200 OK in 36ms (Views: 9.6ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 8.4ms)
+
+
+Started GET "/participants/new" for ::1 at 2025-08-19 14:52:03 +0200
+Processing by ParticipantsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering participants/new.html.erb within layouts/application
+  Rendered participants/new.html.erb within layouts/application (Duration: 0.6ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 27ms (Views: 1.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-08-19 14:52:05 +0200
+Processing by ParticipantsController#index as HTML
+  [1m[36mParticipant Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:6:in 'ParticipantsController#index'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:7:in 'ParticipantsController#index'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:22:in 'Participant.attendance_percentage'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL[0m
+  ↳ app/models/participant.rb:23:in 'Participant.attendance_percentage'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:23:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/index.html.erb within layouts/application
+  [1m[36mParticipant Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "participants" LIMIT 1 /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/index.html.erb:75
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/index.html.erb:85
+  Rendered participants/index.html.erb within layouts/application (Duration: 1.2ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.8ms | GC: 0.0ms)
+Completed 200 OK in 31ms (Views: 1.6ms | ActiveRecord: 1.0ms (7 queries, 3 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-08-19 14:52:06 +0200
+Processing by ParticipantsController#index as HTML
+  [1m[36mParticipant Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:6:in 'ParticipantsController#index'
+  [1m[36mParticipant Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/controllers/participants_controller.rb:7:in 'ParticipantsController#index'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:22:in 'Participant.attendance_percentage'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."scanned_at" IS NOT NULL[0m
+  ↳ app/models/participant.rb:23:in 'Participant.attendance_percentage'
+  [1m[36mCACHE Participant Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" WHERE "participants"."confirmed" = TRUE[0m
+  ↳ app/models/participant.rb:23:in 'Participant.attendance_percentage'
+  Rendering layout layouts/application.html.erb
+  Rendering participants/index.html.erb within layouts/application
+  [1m[36mParticipant Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "participants" LIMIT 1 /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/index.html.erb:75
+  [1m[36mParticipant Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "participants" /*action='index',application='EventDemo',controller='participants'*/[0m
+  ↳ app/views/participants/index.html.erb:85
+  Rendered participants/index.html.erb within layouts/application (Duration: 0.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.6ms | GC: 0.3ms)
+Completed 200 OK in 36ms (Views: 1.5ms | ActiveRecord: 0.8ms (7 queries, 3 cached) | GC: 0.3ms)
+
+

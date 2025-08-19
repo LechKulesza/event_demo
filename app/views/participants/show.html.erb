@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-lg-8 mx-auto">
+    <div class="card">
+      <div class="card-header bg-success text-white text-center">
+        <h3 class="mb-0">
+          <% if @participant.confirmed? %>
+            ✅ Rejestracja potwierdzona
+          <% else %>
+            ⏳ Oczekuje na potwierdzenie
+          <% end %>
+        </h3>
+      </div>
+      <div class="card-body text-center">
+        <h4 class="mb-3">Witaj, <%= @participant.full_name %>!</h4>
+        
+        <% if @participant.confirmed? %>
+          <p class="lead mb-4">
+            Twoja rejestracja została potwierdzona. Poniżej znajdziesz swój unikalny kod QR do wydarzenia.
+          </p>
+          
+          <div class="mb-4">
+            <div class="d-inline-block p-3 bg-white rounded shadow">
+              <%= @participant.qr_code.html_safe if @participant.qr_code %>
+            </div>
+          </div>
+          
+          <div class="alert alert-info">
+            <strong>Instrukcje:</strong><br>
+            Pokaż ten kod QR przy wejściu na wydarzenie. Kod może być zeskanowany tylko raz.
+          </div>
+          
+          <% if @participant.scanned_at.present? %>
+            <div class="alert alert-success">
+              <strong>Obecność zarejestrowana!</strong><br>
+              Kod został zeskanowany dnia <%= @participant.scanned_at.strftime("%d.%m.%Y o %H:%M") %>
+            </div>
+          <% end %>
+          
+        <% else %>
+          <p class="lead mb-4">
+            Sprawdź swoją skrzynkę email w celu potwierdzenia rejestracji.
+            Dopiero po potwierdzeniu otrzymasz kod QR do wydarzenia.
+          </p>
+          
+          <div class="alert alert-warning">
+            <strong>Nie znalazłeś emaila?</strong><br>
+            Sprawdź folder spam lub skontaktuj się z organizatorami.
+          </div>
+        <% end %>
+        
+        <div class="mt-4">
+          <h5>Szczegóły wydarzenia:</h5>
+          <p><strong>Accenture Community Meeting '25</strong></p>
+          <p>Data: TBD (do uzupełnienia przez organizatorów)<br>
+          Miejsce: TBD (do uzupełnienia przez organizatorów)</p>
+        </div>
+        
+        <div class="text-center mt-4">
+          <%= link_to "Powrót do strony głównej", root_path, class: "btn btn-outline-primary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
