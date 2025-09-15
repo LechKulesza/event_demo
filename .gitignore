@@ -93,3 +93,7 @@ Thumbs.db
 
 # Ignore database configuration with sensitive data
 /config/database.yml.local
+
+# Ignore vendor directory (bundled gems)
+/vendor/bundle
+/vendor/cache

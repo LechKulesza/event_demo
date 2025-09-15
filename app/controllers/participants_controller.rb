@@ -1,10 +1,10 @@
 class ParticipantsController < ApplicationController
-  before_action :set_participant, only: [ :show, :scan, :confirm ]
+  before_action :set_participant, only: [ :show, :scan, :confirm, :destroy ]
 
   # Protect admin routes with basic authentication
   http_basic_authenticate_with name: ENV["ADMIN_USER"] || "admin",
                                password: ENV["ADMIN_PASSWORD"] || "password",
-                               only: [ :admin, :scanner, :process_scan ]
+                               only: [ :admin, :scanner, :process_scan, :destroy, :clear_all ]
 
   def index
     @participants = Participant.all
@@ -85,6 +85,18 @@ class ParticipantsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     flash[:alert] = "Nie znaleziono uczestnika"
     redirect_to scanner_participants_path
+  end
+
+  def destroy
+    participant_name = @participant.full_name
+    @participant.destroy
+    redirect_to admin_participants_path, notice: "Uczestnik #{participant_name} został usunięty."
+  end
+
+  def clear_all
+    deleted_count = Participant.count
+    Participant.destroy_all
+    redirect_to admin_participants_path, notice: "Usunięto wszystkich uczestników (#{deleted_count})."
   end
 
   private
