@@ -1,10 +1,10 @@
 class ParticipantsController < ApplicationController
-  before_action :set_participant, only: [:show, :scan, :confirm]
-  
+  before_action :set_participant, only: [ :show, :scan, :confirm ]
+
   # Protect admin routes with basic authentication
-  http_basic_authenticate_with name: ENV['ADMIN_USER'] || 'admin', 
-                               password: ENV['ADMIN_PASSWORD'] || 'password', 
-                               only: [:admin, :scanner, :process_scan]
+  http_basic_authenticate_with name: ENV["ADMIN_USER"] || "admin",
+                               password: ENV["ADMIN_PASSWORD"] || "password",
+                               only: [ :admin, :scanner, :process_scan ]
 
   def index
     @participants = Participant.all
@@ -19,9 +19,9 @@ class ParticipantsController < ApplicationController
 
   def create
     @participant = Participant.new(participant_params)
-    
+
     if @participant.save
-      redirect_to @participant, notice: 'Rejestracja została zakończona pomyślnie! Sprawdź email w celu potwierdzenia.'
+      redirect_to @participant, notice: "Rejestracja została zakończona pomyślnie! Sprawdź email w celu potwierdzenia."
     else
       render :new, status: :unprocessable_entity
     end
@@ -33,19 +33,19 @@ class ParticipantsController < ApplicationController
 
   def scan
     if @participant.scanned_at.present?
-      redirect_to @participant, alert: 'Ten kod QR został już zeskanowany.'
+      redirect_to @participant, alert: "Ten kod QR został już zeskanowany."
     else
       @participant.update(scanned_at: Time.current)
-      redirect_to @participant, notice: 'Obecność została zarejestrowana!'
+      redirect_to @participant, notice: "Obecność została zarejestrowana!"
     end
   end
 
   def confirm
     if @participant.confirmed?
-      redirect_to @participant, notice: 'Rejestracja została już wcześniej potwierdzona!'
+      redirect_to @participant, notice: "Rejestracja została już wcześniej potwierdzona!"
     else
       @participant.update(confirmed: true)
-      redirect_to @participant, notice: 'Rejestracja została potwierdzona! Twój kod QR jest gotowy.'
+      redirect_to @participant, notice: "Rejestracja została potwierdzona! Twój kod QR jest gotowy."
     end
   end
 
@@ -66,11 +66,11 @@ class ParticipantsController < ApplicationController
   def process_scan
     # Extract participant ID from scanned URL
     scanned_url = params[:scanned_url]
-    
-    if scanned_url.include?('/participants/') && scanned_url.include?('/scan')
+
+    if scanned_url.include?("/participants/") && scanned_url.include?("/scan")
       participant_id = scanned_url.match(/\/participants\/(\d+)\/scan/)[1]
       @participant = Participant.find(participant_id)
-      
+
       if @participant.scanned_at.present?
         flash[:alert] = "#{@participant.full_name} - Ten kod QR został już zeskanowany."
       else
@@ -80,7 +80,7 @@ class ParticipantsController < ApplicationController
     else
       flash[:alert] = "Nieprawidłowy kod QR"
     end
-    
+
     redirect_to scanner_participants_path
   rescue ActiveRecord::RecordNotFound
     flash[:alert] = "Nie znaleziono uczestnika"

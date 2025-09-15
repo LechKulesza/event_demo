@@ -16,9 +16,9 @@ class Participant < ApplicationRecord
 
   def qr_code_data
     # Use configured host from action_mailer or fallback to localhost for development
-    host = Rails.application.config.action_mailer.default_url_options[:host] rescue 'localhost:3000'
-    protocol = Rails.env.production? ? 'https' : 'http'
-    
+    host = Rails.application.config.action_mailer.default_url_options[:host] rescue "localhost:3000"
+    protocol = Rails.env.production? ? "https" : "http"
+
     Rails.application.routes.url_helpers.scan_participant_url(self, host: "#{protocol}://#{host}")
   end
 
@@ -36,13 +36,13 @@ class Participant < ApplicationRecord
   end
 
   def generate_qr_code
-    require 'rqrcode'
+    require "rqrcode"
 
     qr = RQRCode::QRCode.new(qr_code_data)
     self.update_column(:qr_code, qr.as_svg(
       offset: 0,
-      color: '000',
-      shape_rendering: 'crispEdges',
+      color: "000",
+      shape_rendering: "crispEdges",
       module_size: 6,
       standalone: true
     ))
