@@ -23,7 +23,7 @@ class ParticipantsController < ApplicationController
     if @participant.save
       redirect_to @participant, notice: "Rejestracja została zakończona pomyślnie! Sprawdź email w celu potwierdzenia."
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
