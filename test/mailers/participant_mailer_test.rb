@@ -6,7 +6,7 @@ class ParticipantMailerTest < ActionMailer::TestCase
     mail = ParticipantMailer.confirmation_email(participant)
     assert_equal 'Potwierdź swoją rejestrację na Accenture Community Meeting "25', mail.subject
     assert_equal [ participant.email ], mail.to
-    assert_equal [ "from@example.com" ], mail.from
+    assert_equal [ "no-reply@kw-house.com" ], mail.from
     assert_match participant.full_name, mail.body.encoded
   end
 end
