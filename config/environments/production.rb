@@ -51,20 +51,19 @@ Rails.application.configure do
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
   config.active_job.queue_adapter = :solid_queue
-  config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST") }
+  config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST") { "example.com" } }
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
   config.action_mailer.smtp_settings = {
-    user_name: ENV.fetch("EMAIL_USER"),
-    password: ENV.fetch("EMAIL_PASS"),
-    address: ENV.fetch("EMAIL_HOST"),
+    user_name: ENV.fetch("EMAIL_USER") { "user@example.com" },
+    password: ENV.fetch("EMAIL_PASS") { "password" },
+    address: ENV.fetch("EMAIL_HOST") { "smtp.example.com" },
     port: ENV.fetch("EMAIL_PORT", 587),
     authentication: :login,
     enable_starttls_auto: true
@@ -82,7 +81,7 @@ Rails.application.configure do
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
-    ENV["APP_HOST"]
+    ENV["APP_HOST"] || "example.com"
   ]
 
   # Skip DNS rebinding protection for the default health check endpoint.

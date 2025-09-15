@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+# Start Rails server and Solid Queue jobs worker in production mode
+# using the main Procfile
+
+puts "🚀 Starting production server with jobs worker..."
+puts "⚡ Starting both web server and jobs worker in production mode"
+puts "🛑 Press Ctrl+C to stop both services"
+puts ""
+
+exec "foreman", "start", "-f", "Procfile", *ARGV

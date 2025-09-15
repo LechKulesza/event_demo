@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# Kill all Rails and jobs processes to ensure clean restart
+
+echo "🧹 Cleaning up Rails and job processes..."
+
+# Find and kill Rails server processes
+RAILS_PIDS=$(pgrep -f "rails server" | tr '\n' ' ')
+if [ ! -z "$RAILS_PIDS" ]; then
+    echo "Killing Rails server processes: $RAILS_PIDS"
+    kill -9 $RAILS_PIDS 2>/dev/null || true
+fi
+
+# Find and kill job worker processes
+JOBS_PIDS=$(pgrep -f "bin/jobs" | tr '\n' ' ')
+if [ ! -z "$JOBS_PIDS" ]; then
+    echo "Killing job worker processes: $JOBS_PIDS"
+    kill -9 $JOBS_PIDS 2>/dev/null || true
+fi
+
+# Find and kill any processes on port 3000
+PORT_PIDS=$(lsof -ti:3000 | tr '\n' ' ')
+if [ ! -z "$PORT_PIDS" ]; then
+    echo "Killing processes on port 3000: $PORT_PIDS"
+    kill -9 $PORT_PIDS 2>/dev/null || true
+fi
+
+# Find and kill foreman processes
+FOREMAN_PIDS=$(pgrep -f "foreman" | tr '\n' ' ')
+if [ ! -z "$FOREMAN_PIDS" ]; then
+    echo "Killing foreman processes: $FOREMAN_PIDS"
+    kill -9 $FOREMAN_PIDS 2>/dev/null || true
+fi
+
+echo "✅ Cleanup completed!"
+echo "You can now safely run bin/dev"
