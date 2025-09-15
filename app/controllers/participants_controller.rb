@@ -1,5 +1,10 @@
 class ParticipantsController < ApplicationController
   before_action :set_participant, only: [:show, :scan, :confirm]
+  
+  # Protect admin routes with basic authentication
+  http_basic_authenticate_with name: ENV['ADMIN_USER'] || 'admin', 
+                               password: ENV['ADMIN_PASSWORD'] || 'password', 
+                               only: [:admin, :scanner, :process_scan]
 
   def index
     @participants = Participant.all
@@ -52,6 +57,34 @@ class ParticipantsController < ApplicationController
       scanned: Participant.scanned.count,
       attendance_percentage: Participant.attendance_percentage
     }
+  end
+
+  def scanner
+    # Admin page for scanning QR codes
+  end
+
+  def process_scan
+    # Extract participant ID from scanned URL
+    scanned_url = params[:scanned_url]
+    
+    if scanned_url.include?('/participants/') && scanned_url.include?('/scan')
+      participant_id = scanned_url.match(/\/participants\/(\d+)\/scan/)[1]
+      @participant = Participant.find(participant_id)
+      
+      if @participant.scanned_at.present?
+        flash[:alert] = "#{@participant.full_name} - Ten kod QR został już zeskanowany."
+      else
+        @participant.update(scanned_at: Time.current)
+        flash[:notice] = "#{@participant.full_name} - Obecność została zarejestrowana!"
+      end
+    else
+      flash[:alert] = "Nieprawidłowy kod QR"
+    end
+    
+    redirect_to scanner_participants_path
+  rescue ActiveRecord::RecordNotFound
+    flash[:alert] = "Nie znaleziono uczestnika"
+    redirect_to scanner_participants_path
   end
 
   private
