@@ -7,13 +7,12 @@
 # Ignore bundler config.
 /.bundle
 
-# Ignore all environment files (except templates).
-/.env*
+/.env
 !/.env*.erb
 
 # Ignore all logfiles and tempfiles.
-/log/
-/tmp/
+/log*
+/tmp*
 
 # Ignore storage (uploaded files in development and any SQLite databases).
 /storage/*
@@ -76,8 +75,6 @@ Thumbs.db
 # Ignore capistrano deployment files
 /config/deploy/*
 
-# Ignore bootsnap cache
-/tmp/bootsnap*
 
 # Ignore Rails credentials except the template
 /config/credentials/*.key
