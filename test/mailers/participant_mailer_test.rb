@@ -2,10 +2,11 @@ require "test_helper"
 
 class ParticipantMailerTest < ActionMailer::TestCase
   test "confirmation_email" do
-    mail = ParticipantMailer.confirmation_email
-    assert_equal "Confirmation email", mail.subject
-    assert_equal [ "to@example.org" ], mail.to
+    participant = participants(:one)
+    mail = ParticipantMailer.confirmation_email(participant)
+    assert_equal 'Potwierdź swoją rejestrację na Accenture Community Meeting "25', mail.subject
+    assert_equal [ participant.email ], mail.to
     assert_equal [ "from@example.com" ], mail.from
-    assert_match "Hi", mail.body.encoded
+    assert_match participant.full_name, mail.body.encoded
   end
 end

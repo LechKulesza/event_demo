@@ -2,27 +2,27 @@ require "test_helper"
 
 class ParticipantsControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    get participants_index_url
+    get participants_url
     assert_response :success
   end
 
   test "should get new" do
-    get participants_new_url
+    get new_participant_url
     assert_response :success
   end
 
-  test "should get create" do
-    get participants_create_url
-    assert_response :success
+  test "should post create" do
+    post participants_path, params: { participant: { first_name: "John", last_name: "Doe", email: "first@example.com" } }
+    assert_response :redirect
   end
 
   test "should get show" do
-    get participants_show_url
+    get participant_url(participants(:one))
     assert_response :success
   end
 
   test "should get scan" do
-    get participants_scan_url
-    assert_response :success
+    get scan_participant_path(participants(:one))
+    assert_response :redirect
   end
 end

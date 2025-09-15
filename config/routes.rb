@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root "participants#index"
-  
+
   resources :participants do
     member do
       get :scan

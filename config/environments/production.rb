@@ -58,7 +58,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: ENV.fetch('APP_HOST') }
+  config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST") }
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
   # config.action_mailer.smtp_settings = {
@@ -81,12 +81,12 @@ Rails.application.configure do
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
-    ENV['APP_HOST'] || "localhost",     # Allow requests from configured host
+    ENV["APP_HOST"] || "localhost",     # Allow requests from configured host
     /.*\.herokuapp\.com/,              # Allow Heroku if deployed there
     /.*\.railway\.app/,                # Allow Railway if deployed there
     /.*\.vercel\.app/                  # Allow Vercel if deployed there
   ]
-  
+
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 end
