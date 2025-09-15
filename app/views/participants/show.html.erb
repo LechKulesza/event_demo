@@ -20,7 +20,7 @@
           
           <div class="mb-4">
             <div class="d-inline-block p-3 bg-white rounded shadow">
-              <%= @participant.qr_code.html_safe if @participant.qr_code %>
+              <%= @participant.safe_qr_code_html %>
             </div>
           </div>
           

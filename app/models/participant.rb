@@ -27,6 +27,19 @@ class Participant < ApplicationRecord
     (scanned.count.to_f / confirmed.count * 100).round(2)
   end
 
+  def safe_qr_code_html
+    return nil unless qr_code.present?
+
+    # Validate that the content is a valid SVG from our QR code generation
+    if qr_code.start_with?('<?xml version="1.0"') && qr_code.include?("<svg") && qr_code.include?("</svg>")
+      qr_code.html_safe
+    else
+      # If invalid, regenerate the QR code
+      generate_qr_code
+      qr_code.html_safe
+    end
+  end
+
   private
 
   def generate_qr_code_if_confirmed
