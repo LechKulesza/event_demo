@@ -40,7 +40,7 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 # QR Code generation
-gem "rqrcode", "~> 2.0"
+gem "rqrcode", "~> 3.1"
 
 # Email functionality
 gem "mail"
