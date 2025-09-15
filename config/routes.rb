@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     end
     collection do
       get :admin
+      get :scanner  # Admin page for scanning QR codes
+      post :process_scan  # Process scanned QR codes
     end
   end
 

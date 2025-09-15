@@ -1,0 +1,92 @@
+<div class="row">
+  <div class="col-lg-8 mx-auto">
+    <div class="card">
+      <div class="card-header bg-info text-white">
+        <h3 class="mb-0">🔍 Skaner Kodów QR</h3>
+      </div>
+      <div class="card-body">
+        <div class="text-center mb-4">
+          <p class="lead">Skanuj kody QR uczestników aby zarejestrować ich obecność</p>
+        </div>
+
+        <!-- Manual URL input for testing -->
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">Ręczne wprowadzenie kodu</h5>
+          </div>
+          <div class="card-body">
+            <%= form_with url: process_scan_participants_path, method: :post, local: true do |form| %>
+              <div class="input-group">
+                <%= form.text_field :scanned_url, 
+                    placeholder: "Wklej tutaj URL z kodu QR...", 
+                    class: "form-control",
+                    required: true %>
+                <button class="btn btn-primary" type="submit">
+                  <i class="fas fa-qrcode"></i> Skanuj
+                </button>
+              </div>
+              <small class="form-text text-muted">
+                Format: http://localhost:3000/participants/ID/scan
+              </small>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Camera Scanner (future enhancement) -->
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Skaner kamery</h5>
+          </div>
+          <div class="card-body text-center">
+            <div class="alert alert-info">
+              <strong>Funkcja w przygotowaniu</strong><br>
+              Skaner kamery będzie dostępny w przyszłej wersji.<br>
+              Na razie użyj ręcznego wprowadzenia powyżej.
+            </div>
+            
+            <!-- Placeholder for camera scanner -->
+            <div id="qr-reader" class="d-none">
+              <!-- QR scanner will be implemented here with a JavaScript library -->
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <%= link_to "Powrót do panelu admin", admin_participants_path, 
+              class: "btn btn-outline-secondary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recently scanned participants -->
+<div class="row mt-4">
+  <div class="col-lg-8 mx-auto">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Ostatnio zeskanowani</h5>
+      </div>
+      <div class="card-body">
+        <% recent_scans = Participant.scanned.order(scanned_at: :desc).limit(5) %>
+        <% if recent_scans.any? %>
+          <div class="list-group">
+            <% recent_scans.each do |participant| %>
+              <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <strong><%= participant.full_name %></strong><br>
+                  <small class="text-muted"><%= participant.email %></small>
+                </div>
+                <span class="badge bg-success">
+                  <%= participant.scanned_at.strftime("%H:%M") %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-muted text-center">Brak ostatnich skanów</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

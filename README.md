@@ -151,38 +151,54 @@ Modify CSS variables in `app/views/layouts/application.html.erb`:
 
 ## Deployment
 
+### Environment Variables
+Copy `.env.example` to `.env` and configure:
+
+```bash
+cp .env.example .env
+# Edit .env with your actual values
+```
+
+Required variables:
+- `EVENT_DEMO_DATABASE_PASSWORD` - PostgreSQL password
+- `ADMIN_USER` - Admin panel username
+- `ADMIN_PASSWORD` - Admin panel password  
+- `APP_HOST` - Your server domain (e.g., demo.yoursite.com)
+
+### Production Setup
+
 1. **Environment Variables**
    ```bash
-   DATABASE_URL=postgresql://...
-   RAILS_MASTER_KEY=...
+   export EVENT_DEMO_DATABASE_PASSWORD="secure_password"
+   export ADMIN_USER="admin"
+   export ADMIN_PASSWORD="secure_admin_password"
+   export APP_HOST="your-demo-server.com"
    ```
 
-2. **Asset Precompilation**
+2. **Database Setup**
    ```bash
-   rails assets:precompile
-   ```
-
-3. **Database Migration**
-   ```bash
+   rails db:create RAILS_ENV=production
    rails db:migrate RAILS_ENV=production
    ```
 
-## Development
+3. **Asset Precompilation**
+   ```bash
+   rails assets:precompile RAILS_ENV=production
+   ```
 
-### Running Tests
-```bash
-rails test
-```
+4. **Start Production Server**
+   ```bash
+   rails server -e production -p 3000
+   ```
 
-### Database Console
-```bash
-rails db:console
-```
+### Security Notes
 
-### Rails Console
-```bash
-rails console
-```
+- Admin panel (`/participants/admin`) is protected with HTTP Basic Authentication
+- Scanner page (`/participants/scanner`) requires admin credentials
+- All URLs are generated dynamically based on `APP_HOST` environment variable
+- SSL is enforced in production environment
+
+For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ## License
 

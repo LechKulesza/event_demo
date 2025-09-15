@@ -15,7 +15,11 @@ class Participant < ApplicationRecord
   end
 
   def qr_code_data
-    "participant_#{id}_#{SecureRandom.hex(8)}"
+    # Use configured host from action_mailer or fallback to localhost for development
+    host = Rails.application.config.action_mailer.default_url_options[:host] rescue 'localhost:3000'
+    protocol = Rails.env.production? ? 'https' : 'http'
+    
+    Rails.application.routes.url_helpers.scan_participant_url(self, host: "#{protocol}://#{host}")
   end
 
   def self.attendance_percentage
@@ -33,7 +37,7 @@ class Participant < ApplicationRecord
 
   def generate_qr_code
     require 'rqrcode'
-    
+
     qr = RQRCode::QRCode.new(qr_code_data)
     self.update_column(:qr_code, qr.as_svg(
       offset: 0,
