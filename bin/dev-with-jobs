@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# Start Rails server and Solid Queue jobs worker simultaneously in development
+# with proper process group management
+
+set -e
+
+# Function to handle cleanup when script is interrupted
+cleanup() {
+    echo ""
+    echo "🛑 Stopping services..."
+    # Kill the entire process group
+    kill -TERM -$$ 2>/dev/null || true
+    sleep 2
+    # Force kill if still running
+    kill -KILL -$$ 2>/dev/null || true
+    exit 0
+}
+
+# Set up trap to call cleanup function on CTRL+C and other signals
+trap cleanup SIGINT SIGTERM EXIT
+
+echo "🚀 Starting Rails server and Solid Queue jobs worker..."
+echo "📝 Server will be available at http://localhost:3000"
+echo "⚡ Jobs worker will process background tasks"
+echo "🛑 Press Ctrl+C to stop both services"
+echo ""
+
+# Start Rails server in background with process group
+echo "Starting Rails server on port 3000..."
+bin/rails server -p 3000 &
+SERVER_PID=$!
+
+# Wait a moment for server to start
+sleep 2
+
+# Start Solid Queue jobs worker in background
+echo "Starting Solid Queue jobs worker..."
+bin/jobs &
+JOBS_PID=$!
+
+echo "✅ Both services started successfully!"
+echo "Server PID: $SERVER_PID"
+echo "Worker PID: $JOBS_PID"
+echo ""
+
+# Wait for both processes
+wait $SERVER_PID $JOBS_PID
