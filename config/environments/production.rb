@@ -66,7 +66,8 @@ Rails.application.configure do
     password: ENV.fetch("EMAIL_PASS"),
     address: ENV.fetch("EMAIL_HOST"),
     port: ENV.fetch("EMAIL_PORT", 587),
-    authentication: :plain
+    authentication: :login,
+    enable_starttls_auto: true
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
