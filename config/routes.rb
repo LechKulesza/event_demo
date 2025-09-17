@@ -12,6 +12,8 @@ Rails.application.routes.draw do
       get :admin
       get :scanner  # Admin page for scanning QR codes
       post :process_scan  # Process scanned QR codes
+      delete :clear_all  # Clear all participants
+      patch :reset_statuses  # Reset confirmed and scanned statuses
     end
   end
 

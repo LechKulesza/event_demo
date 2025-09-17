@@ -1,10 +1,10 @@
 class ParticipantsController < ApplicationController
-  before_action :set_participant, only: [ :show, :scan, :confirm ]
+  before_action :set_participant, only: [ :show, :scan, :confirm, :destroy ]
 
   # Protect admin routes with basic authentication
   http_basic_authenticate_with name: ENV["ADMIN_USER"] || "admin",
                                password: ENV["ADMIN_PASSWORD"] || "password",
-                               only: [ :admin, :scanner, :process_scan ]
+                               only: [ :admin, :scanner, :process_scan, :clear_all, :reset_statuses ]
 
   def index
     @participants = Participant.all
@@ -57,6 +57,27 @@ class ParticipantsController < ApplicationController
       scanned: Participant.scanned.count,
       attendance_percentage: Participant.attendance_percentage
     }
+  end
+
+  def destroy
+    @participant.destroy
+    redirect_to admin_participants_path, notice: "Uczestnik #{@participant.full_name} został usunięty."
+  end
+
+  def clear_all
+    count = Participant.count
+    Participant.destroy_all
+    redirect_to admin_participants_path, notice: "Usunięto wszystkich uczestników (#{count})."
+  end
+
+  def reset_statuses
+    confirmed_count = Participant.confirmed.count
+    scanned_count = Participant.scanned.count
+    
+    Participant.update_all(confirmed: false, scanned_at: nil, qr_code: nil)
+    
+    redirect_to admin_participants_path, 
+      notice: "Zresetowano statusy: #{confirmed_count} potwierdzonych i #{scanned_count} zeskanowanych uczestników."
   end
 
   def scanner
