@@ -4,7 +4,7 @@ class ParticipantsController < ApplicationController
   # Protect admin routes with basic authentication
   http_basic_authenticate_with name: ENV["ADMIN_USER"] || "admin",
                                password: ENV["ADMIN_PASSWORD"] || "password",
-                               only: [ :admin, :scanner, :process_scan, :clear_all, :reset_statuses ]
+                               only: [ :admin, :scanner, :process_scan, :clear_all, :destroy ]
 
   def index
     @participants = Participant.all
@@ -68,16 +68,6 @@ class ParticipantsController < ApplicationController
     count = Participant.count
     Participant.destroy_all
     redirect_to admin_participants_path, notice: "Usunięto wszystkich uczestników (#{count})."
-  end
-
-  def reset_statuses
-    confirmed_count = Participant.confirmed.count
-    scanned_count = Participant.scanned.count
-    
-    Participant.update_all(confirmed: false, scanned_at: nil, qr_code: nil)
-    
-    redirect_to admin_participants_path, 
-      notice: "Zresetowano statusy: #{confirmed_count} potwierdzonych i #{scanned_count} zeskanowanych uczestników."
   end
 
   def scanner

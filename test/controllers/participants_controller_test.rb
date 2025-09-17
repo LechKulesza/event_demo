@@ -44,24 +44,6 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to admin_participants_path
   end
 
-  test "should reset all statuses" do
-    # Set up some participants with confirmed and scanned statuses
-    participants(:one).update(confirmed: true, scanned_at: Time.current)
-    participants(:two).update(confirmed: true)
-    
-    patch reset_statuses_participants_path, headers: admin_headers
-    
-    # Verify all statuses are reset
-    Participant.all.each do |participant|
-      participant.reload
-      assert_not participant.confirmed
-      assert_nil participant.scanned_at
-      assert_nil participant.qr_code
-    end
-    
-    assert_redirected_to admin_participants_path
-  end
-
   private
 
   def admin_headers

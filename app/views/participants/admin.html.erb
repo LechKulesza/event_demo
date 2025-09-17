@@ -6,20 +6,12 @@
         <div>
           <%= link_to "🔍 Skaner QR", scanner_participants_path, 
               class: "btn btn-info btn-sm" %>
-          <div class="btn-group" role="group">
-            <%= link_to "🔄 Reset statusów", reset_statuses_participants_path,
-                method: :patch,
-                class: "btn btn-warning btn-sm",
-                data: { 
-                  confirm: "Czy na pewno chcesz zresetować wszystkie statusy potwierdzenia i skanowania?" 
-                } %>
-            <%= link_to "🗑️ Usuń wszystkich", clear_all_participants_path,
-                method: :delete,
-                class: "btn btn-danger btn-sm",
-                data: { 
-                  confirm: "Czy na pewno chcesz usunąć WSZYSTKICH uczestników? Ta akcja jest nieodwracalna!" 
-                } %>
-          </div>
+          <%= link_to "🗑️ Usuń wszystkich", clear_all_participants_path,
+              method: :delete,
+              class: "btn btn-danger btn-sm",
+              data: { 
+                confirm: "Czy na pewno chcesz usunąć WSZYSTKICH uczestników? Ta akcja jest nieodwracalna!" 
+              } %>
         </div>
       </div>
       <div class="card-body">
