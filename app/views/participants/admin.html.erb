@@ -6,6 +6,12 @@
         <div>
           <%= link_to "🔍 Skaner QR", scanner_participants_path, 
               class: "btn btn-info btn-sm" %>
+          <%= link_to "🗑️ Usuń wszystkich", clear_all_participants_path,
+              method: :delete,
+              class: "btn btn-danger btn-sm",
+              data: { 
+                confirm: "Czy na pewno chcesz usunąć WSZYSTKICH uczestników? Ta akcja jest nieodwracalna!" 
+              } %>
         </div>
       </div>
       <div class="card-body">
@@ -86,6 +92,31 @@
                       <%= link_to "Potwierdź", confirm_participant_path(participant), 
                           class: "btn btn-sm btn-success" %>
                     <% end %>
+                    
+                    <% if participant.confirmed? %>
+                      <%= link_to "↻ Reset potw.", reset_confirmed_participant_path(participant),
+                          method: :patch,
+                          class: "btn btn-sm btn-warning",
+                          data: { 
+                            confirm: "Czy na pewno chcesz zresetować status potwierdzenia dla #{participant.full_name}?" 
+                          } %>
+                    <% end %>
+                    
+                    <% if participant.scanned_at.present? %>
+                      <%= link_to "↻ Reset skan", reset_scan_participant_path(participant),
+                          method: :patch,
+                          class: "btn btn-sm btn-info",
+                          data: { 
+                            confirm: "Czy na pewno chcesz zresetować status skanowania dla #{participant.full_name}?" 
+                          } %>
+                    <% end %>
+                    
+                    <%= link_to "Usuń", participant_path(participant),
+                        method: :delete,
+                        class: "btn btn-sm btn-danger",
+                        data: { 
+                          confirm: "Czy na pewno chcesz usunąć #{participant.full_name}?" 
+                        } %>
                   </td>
                 </tr>
               <% end %>
