@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     member do
       get :scan
       get :confirm
+      patch :reset_confirmed  # Reset confirmed status for individual participant
+      patch :reset_scan       # Reset scan status for individual participant
     end
     collection do
       get :admin

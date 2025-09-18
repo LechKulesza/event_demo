@@ -1,10 +1,10 @@
 class ParticipantsController < ApplicationController
-  before_action :set_participant, only: [ :show, :scan, :confirm, :destroy ]
+  before_action :set_participant, only: [ :show, :scan, :confirm, :destroy, :reset_confirmed, :reset_scan ]
 
   # Protect admin routes with basic authentication
   http_basic_authenticate_with name: ENV["ADMIN_USER"] || "admin",
                                password: ENV["ADMIN_PASSWORD"] || "password",
-                               only: [ :admin, :scanner, :process_scan, :clear_all, :destroy ]
+                               only: [ :admin, :scanner, :process_scan, :clear_all, :destroy, :reset_confirmed, :reset_scan ]
 
   def index
     @participants = Participant.all
@@ -68,6 +68,24 @@ class ParticipantsController < ApplicationController
     count = Participant.count
     Participant.destroy_all
     redirect_to admin_participants_path, notice: "Usunięto wszystkich uczestników (#{count})."
+  end
+
+  def reset_confirmed
+    if @participant.confirmed?
+      @participant.update(confirmed: false, qr_code: nil)
+      redirect_to admin_participants_path, notice: "Status potwierdzenia dla #{@participant.full_name} został zresetowany."
+    else
+      redirect_to admin_participants_path, alert: "#{@participant.full_name} nie ma potwierdzonej rejestracji."
+    end
+  end
+
+  def reset_scan
+    if @participant.scanned_at.present?
+      @participant.update(scanned_at: nil)
+      redirect_to admin_participants_path, notice: "Status skanowania dla #{@participant.full_name} został zresetowany."
+    else
+      redirect_to admin_participants_path, alert: "#{@participant.full_name} nie ma zeskanowanej obecności."
+    end
   end
 
   def scanner

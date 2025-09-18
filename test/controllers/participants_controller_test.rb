@@ -44,6 +44,47 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to admin_participants_path
   end
 
+  test "should reset confirmed status for individual participant" do
+    # Set participant as confirmed
+    @participant.update(confirmed: true, qr_code: "some_qr_code")
+    
+    patch reset_confirmed_participant_path(@participant), headers: admin_headers
+    
+    @participant.reload
+    assert_not @participant.confirmed
+    assert_nil @participant.qr_code
+    assert_redirected_to admin_participants_path
+  end
+
+  test "should reset scan status for individual participant" do
+    # Set participant as scanned
+    @participant.update(scanned_at: Time.current)
+    
+    patch reset_scan_participant_path(@participant), headers: admin_headers
+    
+    @participant.reload
+    assert_nil @participant.scanned_at
+    assert_redirected_to admin_participants_path
+  end
+
+  test "should handle reset confirmed for unconfirmed participant" do
+    # Ensure participant is not confirmed
+    @participant.update(confirmed: false)
+    
+    patch reset_confirmed_participant_path(@participant), headers: admin_headers
+    
+    assert_redirected_to admin_participants_path
+  end
+
+  test "should handle reset scan for unscanned participant" do
+    # Ensure participant has no scan
+    @participant.update(scanned_at: nil)
+    
+    patch reset_scan_participant_path(@participant), headers: admin_headers
+    
+    assert_redirected_to admin_participants_path
+  end
+
   private
 
   def admin_headers
